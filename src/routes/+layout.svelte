@@ -1,0 +1,81 @@
+<script>
+	import Header from './Header.svelte';
+	import './styles.css';
+</script>
+
+<div class="app">
+	<Header />
+
+	<main>
+		<slot />
+	</main>
+
+	<footer>
+		<nav>
+			<a href="#">Imprint</a>
+			<a href="#">Privacy</a>
+			<a href="#">Contact</a>
+		</nav>
+	</footer>
+</div>
+
+<style>
+	.app {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
+	main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		width: min(calc(100% - 2rem), 70rem);
+		margin: 0 auto;
+		box-sizing: border-box;
+
+		padding-top: 8rem;
+	}
+
+	footer {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 50px 0;
+
+		background: var(--vscode-layer1);
+
+		width: 100%;
+
+		height: 300px;
+
+		margin-top: 8rem;
+	}
+
+	footer a {
+		font-weight: bold;
+	}
+
+	@media (min-width: 480px) {
+		footer {
+			padding: 12px 0;
+		}
+	}
+	nav {
+		display: flex;
+
+		justify-content: space-between;
+
+		margin: auto;
+	}
+	nav a {
+		display: grid;
+		place-content: center;
+
+		height: 100%;
+		padding: 0 3rem;
+
+		color: var(--vscode-text);
+	}
+</style>
