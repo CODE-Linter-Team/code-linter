@@ -35,7 +35,7 @@ async function seedDatabase() {
     const laurin = new User({
         name: "Laurin Notemann",
         email: "laurin.notemann@code.berlin",
-        image: "https://lh3.googleusercontent.com/a/AEdFTp6PSy2Omni3BiexQvgjuZwIoUsnujabr6eVZvC0=s96-c",
+        image: "https://lh3.googleusercontent.com/a/AEdFTp4DZtIehcTa3BXJ0Wh-ykeGj43bWgVeT3DB0UMO=s96-c",
         permissions: ALL_PERMISSIONS,
     })
     await laurin.save()
@@ -43,7 +43,7 @@ async function seedDatabase() {
     const daniel = new User({
         name: "Daniel Azomji",
         email: "daniel.azomji@code.berlin",
-        image: "https://lh3.googleusercontent.com/a/AEdFTp6PSy2Omni3BiexQvgjuZwIoUsnujabr6eVZvC0=s96-c",
+        image: "https://lh3.googleusercontent.com/a-/AD5-WClbXchZjeOgyZG8IG8iojnarP5nvv18RJlHjHM3OAtlEdsFRX4SvQJWLUVJUeLn=s96-c",
         permissions: ALL_PERMISSIONS,
     })
     await daniel.save()

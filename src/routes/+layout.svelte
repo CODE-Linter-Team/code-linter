@@ -1,7 +1,13 @@
 <script>
+	import { SvelteToast } from '@zerodevx/svelte-toast';
+
 	import Header from './Header.svelte';
 	import './styles.css';
+
+	const options = {};
 </script>
+
+<SvelteToast {options} />
 
 <div class="app">
 	<Header />

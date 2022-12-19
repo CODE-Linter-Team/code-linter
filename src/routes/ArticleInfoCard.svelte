@@ -4,6 +4,11 @@
 
 	import UserInfoCard from '../components/UserInfoCard.svelte';
 
+	import { toast } from '@zerodevx/svelte-toast';
+	import { Pulse } from 'svelte-loading-spinners';
+
+	import ToastTheme from '../data/toastThemes';
+
 	interface User {
 		name: string;
 		email: string;
@@ -31,6 +36,10 @@
 
 	let isAccountPopupOpen = false;
 
+	let state: { state: 'DEFAULT' } | { state: 'SUBMITTING' } | { state: 'SUBMITTED' } = {
+		state: 'DEFAULT'
+	};
+
 	function handleAvatarClick() {
 		if (isAccountPopupOpen) {
 			isAccountPopupOpen = false;
@@ -40,11 +49,39 @@
 		isAccountPopupOpen = true;
 	}
 	async function publishArticle(articleId: string) {
-		const res = await fetch(`/api/articles/${articleId}/publish`, { method: 'POST' });
+		state = { state: 'SUBMITTING' };
+		try {
+			const res = await fetch(`/api/articles/${articleId}/publish`, { method: 'POST' });
+
+			toast.push('Published article', {
+				theme: ToastTheme.success
+			});
+			state = { state: 'SUBMITTED' };
+		} catch (err) {
+			toast.push('Failed to reject article', {
+				theme: ToastTheme.error
+			});
+			state = { state: 'DEFAULT' };
+		}
 	}
 	async function rejectArticle(articleId: string) {
-		const res = await fetch(`/api/articles/${articleId}/reject`, { method: 'POST' });
+		state = { state: 'SUBMITTING' };
+
+		try {
+			const res = await fetch(`/api/articles/${articleId}/reject`, { method: 'POST' });
+
+			toast.push('Rejected article', {
+				theme: ToastTheme.success
+			});
+			state = { state: 'SUBMITTED' };
+		} catch (err) {
+			toast.push('Failed to reject article', {
+				theme: ToastTheme.error
+			});
+			state = { state: 'DEFAULT' };
+		}
 	}
+	$: isSubmitting = state.state === 'SUBMITTING';
 </script>
 
 <div class="articleCard">
@@ -103,12 +140,20 @@
 
 		<div class="buttonColumn">
 			{#if article.state.includes('PENDING')}
-				<button class="button" style="--color: #4dc9b0" on:click={() => publishArticle(article.id)}
-					>Publish</button
-				>
-				<button class="button" style="--color: #ce9178" on:click={() => publishArticle(article.id)}
-					>Reject</button
-				>
+				<button class="button" style="--color: #4dc9b0" on:click={() => publishArticle(article.id)}>
+					{#if isSubmitting}
+						<Pulse size="24" color="white" unit="px" duration="1s" />
+					{:else}
+						Publish
+					{/if}
+				</button>
+				<button class="button" style="--color: #ce9178" on:click={() => publishArticle(article.id)}>
+					{#if isSubmitting}
+						<Pulse size="24" color="white" unit="px" duration="1s" />
+					{:else}
+						Reject
+					{/if}
+				</button>
 			{/if}
 		</div>
 	</div>
@@ -197,6 +242,9 @@
 	}
 
 	.button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		background: none;
 
 		border-radius: 6px;

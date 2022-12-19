@@ -6,6 +6,8 @@ import Permission from '../../../../../data/permissions';
 
 export async function POST({ params, locals }: any) {
 
+    await new Promise(res => setTimeout(res, 1000))
+
     const { user } = await locals.getSession()
 
     if (user == null) throw error(401, "login required")

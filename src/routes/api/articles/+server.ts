@@ -29,6 +29,8 @@ export async function GET({ locals, url, ...rest }: any) {
 
 export async function POST({ locals, request }: any) {
 
+    await new Promise(res => setTimeout(res, 1000))
+
     await connectToDatabase()
 
     const { user } = await locals.getSession() ?? {}

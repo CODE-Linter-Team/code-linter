@@ -2,10 +2,13 @@
 	// coverImgSrc: string
 
 	import { writable } from 'svelte/store';
-
-	import Toggle from '../../components/Toggle.svelte';
+	import { toast } from '@zerodevx/svelte-toast';
+	import { Pulse } from 'svelte-loading-spinners';
 
 	import { browser } from '$app/environment';
+
+	import ToastTheme from '../../data/toastThemes';
+	import Toggle from '../../components/Toggle.svelte';
 
 	function registerLocalField<T extends unknown>(defaultValue: T, key: string) {
 		const initialValue = browser
@@ -38,6 +41,10 @@
 		'code-linter:compose-field:is-internal'
 	);
 
+	let state: { state: 'DEFAULT' } | { state: 'SUBMITTING' } | { state: 'SUBMITTED' } = {
+		state: 'DEFAULT'
+	};
+
 	async function submitForReview() {
 		const body = {
 			title: $title,
@@ -47,8 +54,27 @@
 			contentTags: [$topic],
 			scope: $isInternal ? 'INTERNAL' : 'PUBLIC'
 		};
-		const res = await fetch('/api/articles', { method: 'POST', body: JSON.stringify(body) });
+		state = { state: 'SUBMITTING' };
+
+		try {
+			const res = await fetch('/api/articles', { method: 'POST', body: JSON.stringify(body) });
+
+			if (!res.ok) throw new Error();
+
+			state = { state: 'SUBMITTED' };
+
+			toast.push('Submitted article for review', {
+				theme: ToastTheme.success
+			});
+		} catch (err) {
+			state = { state: 'DEFAULT' };
+
+			toast.push('Failed to submit article', {
+				theme: ToastTheme.error
+			});
+		}
 	}
+	$: isSubmitting = state.state === 'SUBMITTING';
 </script>
 
 <div class="editor">
@@ -66,9 +92,18 @@
 
 	<span class="textBox" role="textbox" contenteditable>{$markdownContent}</span>
 
-	<button class="button" style="--color: #4dc9b0" on:click={submitForReview}
-		>Submit for review</button
+	<button
+		class="button"
+		style="--color: #4dc9b0"
+		on:click={submitForReview}
+		disabled={isSubmitting}
 	>
+		{#if isSubmitting}
+			<Pulse size="40" color="white" unit="px" duration="1s" />
+		{:else}
+			Submit for review
+		{/if}
+	</button>
 </div>
 
 <!-- internal switch
@@ -91,6 +126,10 @@ tag select -->
 		cursor: pointer;
 	}
 	.button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
 		background: none;
 
 		border-radius: 6px;

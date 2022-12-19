@@ -49,14 +49,16 @@
 					style="padding-left: 0.1rem; font-size: 0.7rem; padding-bottom: 1.5px"
 				/>
 			</h2>
-			<span class="property">
-				<Fa icon={faClock} style="padding-right: 0.3rem; color: #d8d8a7" />
-				{user.articleInfo.pendingCount} pending</span
-			>
+
 			<span class="property">
 				<Fa icon={faCircleCheck} style="padding-right: 0.3rem; color: #4dc9b0" />
 				{user.articleInfo.publishedCount} published
 			</span>
+
+			<span class="property">
+				<Fa icon={faClock} style="padding-right: 0.3rem; color: #d8d8a7" />
+				{user.articleInfo.pendingCount} pending</span
+			>
 
 			<span class="property">
 				<Fa icon={faCircleXmark} style="padding-right: 0.3rem; color: #ce9178" />
