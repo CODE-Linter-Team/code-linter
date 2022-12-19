@@ -61,6 +61,13 @@
 
 			if (!res.ok) throw new Error();
 
+			title.set('');
+			description.set('');
+			markdownContent.set('');
+			coverImgSrc.set('');
+			topic.set('');
+			isInternal.set(false);
+
 			state = { state: 'SUBMITTED' };
 
 			toast.push('Submitted article for review', {
@@ -81,7 +88,7 @@
 	<div
 		class="booleanRow"
 		on:click={() => isInternal.set(!$isInternal)}
-		title="Internal articles can only be viewed by users logged into their CODE account"
+		title="Internal articles can only be viewed by users signed into their CODE account"
 	>
 		<span>Internal article</span>
 		<Toggle isToggled={$isInternal} />
@@ -94,7 +101,7 @@
 
 	<button
 		class="button"
-		style="--color: #4dc9b0"
+		style="--color: var(--primary)"
 		on:click={submitForReview}
 		disabled={isSubmitting}
 	>
@@ -124,6 +131,9 @@ tag select -->
 		font-size: 1rem;
 
 		cursor: pointer;
+	}
+	.booleanRow:hover :global(div) {
+		filter: brightness(1.1);
 	}
 	.button {
 		display: flex;

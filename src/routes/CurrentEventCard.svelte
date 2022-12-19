@@ -18,8 +18,8 @@
 		/>
 		<div id="divScriptsUsed" style="display: none" />
 	</svg>
-	<div class="dings">
-		<span class="tags">Upcoming Event</span>
+	<div class="textContainer">
+		<span class="tags">Upcoming event</span>
 		<h2>CODE Community Hackathon</h2>
 	</div>
 </a>
@@ -38,14 +38,14 @@
 		margin-bottom: 8rem;
 
 		background: var(--vscode-card-bg);
-
+		color: white;
 		border-radius: 6px;
 
 		transition-duration: 0.2s;
 		cursor: pointer;
 	}
 	.currentEventCard:hover {
-		/* filter: brightness(1.05); */
+		filter: brightness(1.1);
 
 		text-decoration: none;
 	}
@@ -58,10 +58,16 @@
 		height: 5rem;
 		margin-right: 2rem;
 	}
+	.textContainer {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 3rem;
+	}
 	.tags {
-		margin-bottom: -2px;
+		margin-bottom: -3px;
 
-		color: #4dc9b0;
+		color: var(--primary);
 		font-size: 14px;
 	}
 	h2 {
@@ -70,16 +76,5 @@
 		color: white;
 		font-size: 22px;
 		font-weight: bold;
-	}
-	.dings {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		min-height: 3rem;
-	}
-	@media (prefers-color-scheme: dark) {
-		.currentEventCard {
-			/* box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.12); */
-		}
 	}
 </style>

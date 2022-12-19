@@ -18,6 +18,8 @@
 	import CurrentEventCard from './CurrentEventCard.svelte';
 	import Counter from './Counter.svelte';
 
+	import randomSeed from 'random-seed';
+
 	/** @type {import('./$types').PageData} */
 	export let data;
 
@@ -44,6 +46,16 @@
 		numberGreen: '#b4cda7',
 		commentGreen: '#699855'
 	};
+	const articles = data.articles;
+
+	// @ts-ignore
+	// const pattern = articles.map((i, idx) => {
+	// 	const ding = randomSeed.create('ARBITRARY_PATTERN_SEED_STRING' + idx);
+
+	// 	const lineLength = ['TWO_THIRDS'][ding.range(2)];
+
+	// 	return { color: '' };
+	// });
 
 	const pattern: { color: string; width: any }[] = [
 		{ color: vscodeColors.constDarkBlue, width: 'TWO_THIRDS' },
@@ -69,21 +81,29 @@
 		{ color: vscodeColors.propertyLightBlue, width: 'TWO_THIRDS' },
 		{ color: vscodeColors.constDarkBlue, width: 'ONE_THIRD' }
 	];
-	const articles = data.articles;
 </script>
 
 <section>
-	<div class="adminPanel">
-		<div style="display: flex; flex-wrap: wrap; gap: 1rem; border-radius: 6px; overflow: hidden">
-			<a href="#" class="adminPanelCard" style="--color: #569cd6">
-				<Fa icon={faGear} style="padding-right: 0.3rem; color: white" />
-				Manage content</a
-			>
-			<a href="#" class="adminPanelCard" style="--color: #699855"
-				><Fa icon={faUsers} style="padding-right: 0.3rem; color: white" />
-				Manage users</a
-			>
-		</div>
+	<div style="display: flex; gap: 1rem; margin-bottom: 8rem">
+		<a class="dingsBlock" href="/articles">
+			<div class="svgButton">
+				<Fa icon={faGear} />
+			</div>
+			<div class="textContainer">
+				<span class="tags">Admin feature</span>
+				<h2>Manage content</h2>
+			</div>
+		</a>
+		<a class="dingsBlock" href="/users">
+			<div class="svgButton">
+				<Fa icon={faUsers} />
+			</div>
+
+			<div class="textContainer">
+				<span class="tags">Admin feature</span>
+				<h2>Manage users</h2>
+			</div>
+		</a>
 	</div>
 
 	<CurrentEventCard />
@@ -96,6 +116,65 @@
 </section>
 
 <style>
+	.textContainer {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 3rem;
+	}
+	.tags {
+		margin-bottom: -3px;
+
+		color: var(--primary);
+		font-size: 14px;
+	}
+	h2 {
+		margin: 0;
+
+		color: white;
+		font-size: 22px;
+		font-weight: bold;
+	}
+	.dingsBlock {
+		display: flex;
+		align-items: center;
+
+		width: 100%;
+		min-height: 3rem;
+		padding: 1rem;
+		gap: 1rem;
+
+		background: var(--vscode-card-bg);
+		color: white;
+		border-radius: 6px;
+
+		transition-duration: 0.2s;
+		cursor: pointer;
+	}
+	.dingsBlock .svgButton {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		min-width: 3rem;
+		min-height: 3rem;
+
+		border-radius: 6px;
+		background: var(--vscode-layer2);
+		color: white;
+	}
+
+	.dingsBlock:hover {
+		filter: brightness(1.1);
+
+		text-decoration: none;
+	}
+
+	.dingsBlock:hover h2 {
+		text-decoration: underline;
+		text-decoration-color: white;
+	}
+
 	.codeBlock {
 		display: flex;
 		flex-wrap: wrap;
@@ -106,30 +185,5 @@
 		border-radius: 6px;
 
 		overflow: hidden;
-	}
-	.adminPanel {
-		display: flex;
-		flex-direction: column;
-
-		background: var(--vscode-layer1);
-		border-radius: 6px;
-
-		padding: 1rem;
-
-		margin-bottom: 8rem;
-	}
-	.adminPanelCard {
-		--color: #569cd6;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		background: var(--color);
-
-		width: 100%;
-		padding: 1rem;
-
-		color: white;
 	}
 </style>

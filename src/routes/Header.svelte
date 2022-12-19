@@ -374,8 +374,8 @@
 		width: var(--size);
 		height: var(--size);
 
-		background: #4dc9b0;
-		box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.12);
+		background: var(--primary);
+		box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
 		border-radius: 50%;
 
 		color: white;

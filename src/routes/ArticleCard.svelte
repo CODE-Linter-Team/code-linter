@@ -34,13 +34,13 @@
 </script>
 
 <a href={article.url} style={`width: ${widthMap[width]}`}>
-	<img src={article.coverImgSrc} alt="dings" class="articleImg" />
+	<img src={article.coverImgSrc} alt="Article thumbnail" class="articleImg" />
 
 	<div class="articleImg codeBlock infoOverlay" style={`background: ${color}`} />
 
 	<div class="infoOverlay">
 		<div class="authorInfo">
-			<img src={article.author.image} alt="akwe" class="authorPb" />
+			<img src={article.author.image} alt="Author profile picture" class="authorPb" />
 			<div style="display:flex; flex-direction: column; height: 100%">
 				<span class="authorName">{article.author.name}</span>
 				<span class="authorDesc">#highfive SE student</span>
@@ -149,8 +149,6 @@
 		width: 100%;
 		height: 100%;
 		padding: 1rem;
-
-		/* background: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0) 100%); */
 	}
 	.description {
 		overflow: hidden;

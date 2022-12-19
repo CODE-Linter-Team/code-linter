@@ -1,24 +1,24 @@
+const commonOptions = {
+
+    '--toastBackground': 'var(--vscode-layer2)',
+    '--toastColor': 'var(--vscode-text)',
+    '--toastBorderRadius': '6px',
+    "--toastBoxShadow": "0 0 16px 0 rgba(0, 0, 0, 0.2)",
+    '--toastPadding': '0 0.5rem'
+}
+
 const ToastTheme = {
     success: {
-        '--toastBackground': 'var(--vscode-layer2)',
-        '--toastColor': 'var(--vscode-text)',
-        '--toastBorderRadius': '6px',
-        '--toastBarBackground': '#4dc9b0',
-        '--toastPadding': '0 0.5rem'
+        ...commonOptions,
+        '--toastBarBackground': 'var(--success)',
     },
     neutral: {
-        '--toastBackground': 'var(--vscode-layer2)',
-        '--toastColor': 'var(--vscode-text)',
-        '--toastBorderRadius': '6px',
-        '--toastBarBackground': '#d8d8a7',
-        '--toastPadding': '0 0.5rem'
+        ...commonOptions,
+        '--toastBarBackground': 'var(--neutral)',
     },
     error: {
-        '--toastBackground': 'var(--vscode-layer2)',
-        '--toastColor': 'var(--vscode-text)',
-        '--toastBorderRadius': '6px',
-        '--toastBarBackground': '#ce9178',
-        '--toastPadding': '0 0.5rem'
+        ...commonOptions,
+        '--toastBarBackground': 'var(--error)',
     }
 }
 export default ToastTheme

@@ -51,17 +51,17 @@
 			</h2>
 
 			<span class="property">
-				<Fa icon={faCircleCheck} style="padding-right: 0.3rem; color: #4dc9b0" />
+				<Fa icon={faCircleCheck} style="padding-right: 0.3rem; color: var(--success)" />
 				{user.articleInfo.publishedCount} published
 			</span>
 
 			<span class="property">
-				<Fa icon={faClock} style="padding-right: 0.3rem; color: #d8d8a7" />
+				<Fa icon={faClock} style="padding-right: 0.3rem; color: var(--neutral)" />
 				{user.articleInfo.pendingCount} pending</span
 			>
 
 			<span class="property">
-				<Fa icon={faCircleXmark} style="padding-right: 0.3rem; color: #ce9178" />
+				<Fa icon={faCircleXmark} style="padding-right: 0.3rem; color: var(--error)" />
 				{user.articleInfo.rejectedCount} rejected
 			</span>
 		</a>

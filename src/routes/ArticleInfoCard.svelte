@@ -9,6 +9,8 @@
 
 	import ToastTheme from '../data/toastThemes';
 
+	import dayjs from 'dayjs';
+
 	interface User {
 		name: string;
 		email: string;
@@ -53,6 +55,8 @@
 		try {
 			const res = await fetch(`/api/articles/${articleId}/publish`, { method: 'POST' });
 
+			if (!res.ok) throw new Error();
+
 			toast.push('Published article', {
 				theme: ToastTheme.success
 			});
@@ -69,6 +73,8 @@
 
 		try {
 			const res = await fetch(`/api/articles/${articleId}/reject`, { method: 'POST' });
+
+			if (!res.ok) throw new Error();
 
 			toast.push('Rejected article', {
 				theme: ToastTheme.success
@@ -117,10 +123,11 @@
 				<div style="display:flex;flex-direction:column">
 					<span class="text" style="padding-left: 12px;">{article.author.name}</span>
 					<div class="dateInfoContainer" style="padding-left: 12px;">
-						<span class="text">Submitted 23.3.2022</span>
+						<span class="text">Submitted {dayjs(article.submittedDate).format('DD.MM.YYYY')}</span>
 						{#if article.state.includes('PUBLISHED')}
 							<span class="text seperatorDot">•</span>
-							<span class="text">Published 23.3.2022</span>
+							<span class="text">Published {dayjs(article.publishedDate).format('DD.MM.YYYY')}</span
+							>
 
 							<span class="text seperatorDot">•</span>
 							<span class="text">69 views</span>
@@ -140,14 +147,22 @@
 
 		<div class="buttonColumn">
 			{#if article.state.includes('PENDING')}
-				<button class="button" style="--color: #4dc9b0" on:click={() => publishArticle(article.id)}>
+				<button
+					class="button"
+					style="--color: var(--success)"
+					on:click={() => publishArticle(article.id)}
+				>
 					{#if isSubmitting}
 						<Pulse size="24" color="white" unit="px" duration="1s" />
 					{:else}
 						Publish
 					{/if}
 				</button>
-				<button class="button" style="--color: #ce9178" on:click={() => publishArticle(article.id)}>
+				<button
+					class="button"
+					style="--color: var(--error)"
+					on:click={() => publishArticle(article.id)}
+				>
 					{#if isSubmitting}
 						<Pulse size="24" color="white" unit="px" duration="1s" />
 					{:else}

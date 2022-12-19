@@ -42,7 +42,7 @@
 		background: var(--vscode-layer2);
 	}
 	input:checked ~ div {
-		background: #4dc9b0;
+		background: var(--primary);
 	}
 
 	span {
