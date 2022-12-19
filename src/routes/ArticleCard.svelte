@@ -40,7 +40,12 @@
 
 	<div class="infoOverlay">
 		<div class="authorInfo">
-			<img src={article.author.image} alt="Author profile picture" class="authorPb" />
+			<div
+				class="authorPb"
+				style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'); background-size: cover"
+			>
+				<img src={article.author.image} class="authorPb" />
+			</div>
 			<div style="display:flex; flex-direction: column; height: 100%">
 				<span class="authorName">{article.author.name}</span>
 				<span class="authorDesc">#highfive SE student</span>

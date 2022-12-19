@@ -14,8 +14,8 @@ export async function GET({ locals, url, ...rest }: any) {
     const isLoggedIn = user != null
 
     const contentTags = url.searchParams.get('tags')?.split(",")
-    const authors = url.searchParams.get('author')?.split(",")
-    const states = url.searchParams.get('state')?.split(",")
+    const authors = url.searchParams.get('authors')?.split(",")
+    const states = url.searchParams.get('states')?.split(",")
 
     const articles = await ArticleController.get({
         includeInternal: isLoggedIn,

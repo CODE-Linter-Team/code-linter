@@ -36,6 +36,8 @@
 	}
 	export let article: Article;
 
+	export let showStateChangeButtons: boolean;
+
 	let isAccountPopupOpen = false;
 
 	let state: { state: 'DEFAULT' } | { state: 'SUBMITTING' } | { state: 'SUBMITTED' } = {
@@ -95,17 +97,19 @@
 		<div style="display:flex;flex-direction:column; width: 100%">
 			<div style="display: flex; align-items: center">
 				<button
-					style="border: none; background: none; position: relative"
+					style="border: none; background: none; position: relative; padding: 0"
 					on:click={handleAvatarClick}
 					on:blur={() =>
 						setTimeout(() => {
 							isAccountPopupOpen = false;
 						}, 100)}
 				>
-					<span
+					<div
+						style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'); background-size: cover"
 						class="avatar"
-						style={`background-image: url('${article.author.image}'); position: relative`}
-					/>
+					>
+						<span style={`background-image: url('${article.author.image}')`} />
+					</div>
 
 					{#if isAccountPopupOpen}
 						<UserInfoCard
@@ -146,7 +150,7 @@
 		</div>
 
 		<div class="buttonColumn">
-			{#if article.state.includes('PENDING')}
+			{#if article.state.includes('PENDING') && showStateChangeButtons}
 				<button
 					class="button"
 					style="--color: var(--success)"

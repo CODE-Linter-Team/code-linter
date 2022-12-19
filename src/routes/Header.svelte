@@ -82,11 +82,13 @@
 									isAccountPopupOpen = false;
 								}, 100)}
 						>
-							<span
-								style="background-image: url('{userProfilePicture}')"
+							<div
 								class="avatar header-avatar"
 								title={`Signed in as ${usernameOrEmail}`}
-							/>
+								style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'); background-size: cover"
+							>
+								<span style="background-image: url('{userProfilePicture}')" />
+							</div>
 							{#if isAccountPopupOpen}
 								<UserInfoCard {user} isMe={true} {signOut} style="right: 1.25rem; top: 6rem;" />
 							{/if}
@@ -107,11 +109,11 @@
 			</div>
 		</nav>
 		<nav class="lowerNav">
-			<a href="#" class="lowerNavItem">Campus</a>
-			<a href="#" class="lowerNavItem">Social</a>
-			<a href="#" class="lowerNavItem">Technology</a>
-			<a href="#" class="lowerNavItem">Academic</a>
-			<a href="#" class="lowerNavItem">Opinion</a>
+			<a href="/articles?tags=Campus" class="lowerNavItem">Campus</a>
+			<a href="/articles?tags=Social" class="lowerNavItem">Social</a>
+			<a href="/articles?tags=Technology" class="lowerNavItem">Technology</a>
+			<a href="/articles?tags=Academic" class="lowerNavItem">Academic</a>
+			<a href="/articles?tags=Opinion" class="lowerNavItem">Opinion</a>
 
 			<a href="/compose" class="composeButton">
 				<Fa icon={faPen} />

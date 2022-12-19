@@ -31,7 +31,12 @@
 			<span class="property" style="margin-right: auto; margin-bottom: 2rem">{user.email}</span>
 		</div>
 
-		<span style="background-image: url('{user.profilePictureSrc}')" class="avatar" />
+		<div
+			class="avatar"
+			style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'); background-size: cover"
+		>
+			<span style="background-image: url('{user.profilePictureSrc}')" />
+		</div>
 	</div>
 
 	<div class="row">
@@ -42,7 +47,7 @@
 			{/each}
 		</div>
 
-		<a class="column" href="/articles">
+		<a class="column" href={`/articles?authors=${user.email}`}>
 			<h2 class="propertyCaption">
 				Articles <Fa
 					icon={faExternalLinkAlt}

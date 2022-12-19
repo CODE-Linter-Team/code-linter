@@ -21,8 +21,12 @@ const ArticleController = {
         states: string[] | undefined
     }) {
 
-        const articleDocs = await Article.find(options.includeInternal ? {} : { scope: "PUBLIC" })
-
+        const articleDocs = await Article.find({
+            ...(options.contentTags == null ? {} : { contentTags: { $in: options.contentTags } }),
+            ...(options.authors == null ? {} : { authorId: { $in: options.authors } }),
+            ...(options.states == null ? {} : { state: { $in: options.states } }),
+            ...(options.includeInternal ? {} : { scope: "PUBLIC" })
+        })
         const articles = await Promise.all(articleDocs.map(ArticleController.refineArticle))
 
         return articles

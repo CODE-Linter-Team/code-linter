@@ -36,7 +36,8 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		width: min(calc(100% - 2rem), 70rem);
+		max-width: 70rem;
+		width: calc(100% - 2rem);
 		margin: 0 auto;
 		box-sizing: border-box;
 
@@ -83,5 +84,12 @@
 		padding: 0 3rem;
 
 		color: var(--vscode-text);
+	}
+	@media (max-width: 42rem) {
+		nav {
+			flex-direction: column;
+
+			gap: 3rem;
+		}
 	}
 </style>
