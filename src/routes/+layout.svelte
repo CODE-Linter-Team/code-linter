@@ -22,8 +22,9 @@
 			<slot />
 		</main>
 
-	<Footer />
-</div>
+		<Footer />
+	</div>
+</QueryClientProvider>
 
 <style>
 	.app {
@@ -43,5 +44,4 @@
 
 		padding-top: 8rem;
 	}
-
 </style>

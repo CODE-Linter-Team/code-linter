@@ -13,9 +13,17 @@
 	} from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa/src/fa.svelte';
 
+	$: userInfo = {
+		permissions: []
+	};
+
 	function togglePermission(userId: string, permissionId: string) {
 		return function () {
-			alert('Hi');
+			if (userInfo.permissions.includes(permissionId)) {
+				userInfo.permissions = userInfo.permissions.filter((i) => i !== permissionId);
+			} else {
+				userInfo.permissions = [...userInfo.permissions, permissionId];
+			}
 		};
 	}
 </script>
@@ -42,11 +50,11 @@
 				{#each Object.values(Permission) as permission, idx}
 					<div
 						class="booleanRow"
-						title="Internal articles can only be viewed by users signed into their CODE account"
+						title={permission.text}
 						on:click={togglePermission('', permission.id)}
 					>
 						<span>{permission.text}</span>
-						<Toggle isToggled={idx === 0} />
+						<Toggle isToggled={userInfo.permissions.includes(permission.id)} />
 					</div>
 				{/each}
 			</div>

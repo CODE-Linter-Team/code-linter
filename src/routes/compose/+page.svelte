@@ -49,6 +49,10 @@
 		state: 'DEFAULT'
 	};
 
+	function handleChange(e: any) {
+		markdownContent.set(e.detail.value);
+	}
+
 	async function submitForReview() {
 		const body = {
 			title: $title,
@@ -90,7 +94,6 @@
 	import { Editor, Viewer } from 'bytemd';
 	import gfm from '@bytemd/plugin-gfm';
 
-	let value: any = 'moin meister';
 	const plugins = [
 		gfm()
 		// Add more plugins here
@@ -111,10 +114,6 @@
 </script>
 
 <div class="editor">
-	<!-- <template>
-		<Editor {value} {plugins} on:change={handleChange} />
-		<Viewer {value} />
-	</template> -->
 	<FileInput {files} {setFiles} />
 	<div
 		class="booleanRow"
@@ -128,7 +127,10 @@
 	<input bind:value={$description} type="text" placeholder="Article description" />
 	<input bind:value={$topic} type="text" placeholder="Article topic" />
 
-	<span class="textBox" role="textbox" contenteditable>{$markdownContent}</span>
+	<!-- <span class="textBox" role="textbox" contenteditable>{$markdownContent}</span> -->
+
+	<Editor value={$markdownContent} {plugins} on:change={handleChange} previewDebounce={10} />
+	<!-- <Viewer value={$markdownContent} /> -->
 
 	<button
 		class="button"
@@ -143,6 +145,14 @@
 		{/if}
 	</button>
 </div>
+
+<!-- constDarkBlue: '#569cd6',
+propertyLightBlue: '#9adafb',
+stringOrange: '#ce9178',
+importPurple: '#c586c0',
+classGreen: '#4dc9b0',
+numberGreen: '#b4cda7',
+commentGreen: '#699855' -->
 
 <!-- internal switch
 tag select -->
@@ -238,5 +248,88 @@ tag select -->
 		transition: filter 0.2s;
 
 		font-family: inherit;
+	}
+	:global(.bytemd) {
+		background: var(--vscode-layer1);
+
+		color: var(--vscode-text);
+		border: none;
+		border-radius: 6px;
+
+		overflow: hidden;
+
+		height: 40rem;
+	}
+	:global(.bytemd-toolbar) {
+		background: var(--vscode-layer1);
+		border-bottom: 1px solid var(--vscode-layer3) !important;
+	}
+	:global(.bytemd-preview) {
+		border-left: 1px solid var(--vscode-layer3) !important;
+	}
+	:global(.CodeMirror) {
+		background: var(--vscode-layer1);
+		color: var(--vscode-text);
+	}
+	:global(.markdown-body) {
+	}
+
+	:global(.bytemd-status) {
+		border-top: 1px solid var(--vscode-layer3) !important;
+	}
+
+	:global(.CodeMirror) :global(.cm-header) {
+		color: #569cd6;
+	}
+	:global(.CodeMirror) :global(.cm-link) {
+		color: #ce9178;
+		text-decoration: none;
+	}
+	:global(.CodeMirror) :global(.cm-url) {
+		color: white;
+		text-decoration: underline;
+	}
+	:global(.markdown-body) :global(h1) {
+		color: white;
+	}
+	:global(.markdown-body) :global(h2) {
+		color: white;
+	}
+
+	:global(.markdown-body) :global(h3) {
+		color: white;
+	}
+	:global(.markdown-body) :global(h4) {
+		color: white;
+	}
+	:global(.markdown-body) :global(h5) {
+		color: white;
+	}
+	:global(.markdown-body) :global(h6) {
+		color: white;
+	}
+	:global(.markdown-body) :global(a) {
+		color: var(--primary);
+	}
+	:global(.cm-variable-2) {
+		color: #569cd6 !important;
+	}
+	:global(.bytemd-status) :global(input[type='checkbox']) {
+		accent-color: var(--primary);
+	}
+	:global(.CodeMirror) :global(span) {
+		color: white;
+	}
+	:global(.CodeMirror) :global(.cm-quote) {
+		color: #699855;
+	}
+	:global(.CodeMirror) :global(.cm-comment) {
+		color: #ce9178;
+	}
+	:global(.CodeMirror) :global(.cm-meta) {
+		color: #ce9178;
+	}
+	:global(.CodeMirror) :global(.CodeMirror-cursor) {
+		border-color: white;
 	}
 </style>
