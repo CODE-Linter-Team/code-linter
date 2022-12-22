@@ -9,6 +9,7 @@
 
 	import ToastTheme from '../../data/toastThemes';
 	import Toggle from '../../components/Toggle.svelte';
+	import FileInput from '../../components/FileInput.svelte';
 
 	function registerLocalField<T extends unknown>(defaultValue: T, key: string) {
 		const initialValue = browser
@@ -30,10 +31,13 @@
 		'',
 		'code-linter:compose-field:description'
 	);
-	export const markdownContent = registerLocalField<string>('', 'code-linter:compose-field:title');
-	export const coverImgSrc = registerLocalField<string>(
+	export const markdownContent = registerLocalField<string>(
 		'',
 		'code-linter:compose-field:markdown-content'
+	);
+	export const coverImg = registerLocalField<(File & { url: string }) | null>(
+		null,
+		'code-linter:compose-field:hero-img'
 	);
 	export const topic = registerLocalField<string>('', 'code-linter:compose-field:topic');
 	export let isInternal = registerLocalField<boolean>(
@@ -50,7 +54,7 @@
 			title: $title,
 			description: $description,
 			markdownContent: $markdownContent,
-			coverImgSrc: $coverImgSrc,
+			coverImgSrc: $coverImg?.url,
 			contentTags: [$topic],
 			scope: $isInternal ? 'INTERNAL' : 'PUBLIC'
 		};
@@ -64,7 +68,7 @@
 			title.set('');
 			description.set('');
 			markdownContent.set('');
-			coverImgSrc.set('');
+			coverImg.set(null);
 			topic.set('');
 			isInternal.set(false);
 
@@ -82,9 +86,36 @@
 		}
 	}
 	$: isSubmitting = state.state === 'SUBMITTING';
+
+	import { Editor, Viewer } from 'bytemd';
+	import gfm from '@bytemd/plugin-gfm';
+
+	let value: any = 'moin meister';
+	const plugins = [
+		gfm()
+		// Add more plugins here
+	];
+
+	$: files = $coverImg == null ? [] : [$coverImg];
+
+	function setFiles(newFiles: any[]) {
+		if (newFiles.length === 0) {
+			coverImg.set(null);
+
+			return;
+		}
+		const { data, ...rest } = newFiles[0];
+
+		coverImg.set(rest);
+	}
 </script>
 
 <div class="editor">
+	<!-- <template>
+		<Editor {value} {plugins} on:change={handleChange} />
+		<Viewer {value} />
+	</template> -->
+	<FileInput {files} {setFiles} />
 	<div
 		class="booleanRow"
 		on:click={() => isInternal.set(!$isInternal)}

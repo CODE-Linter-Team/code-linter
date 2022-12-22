@@ -4,26 +4,34 @@
 	import Header from './Header.svelte';
 	import './styles.css';
 
+	import 'bytemd/dist/index.css';
+
 	const options = {};
+
+	import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
+
+	const queryClient = new QueryClient();
 </script>
 
-<SvelteToast {options} />
+<QueryClientProvider client={queryClient}>
+	<SvelteToast {options} />
 
-<div class="app">
-	<Header />
+	<div class="app">
+		<Header />
 
-	<main>
-		<slot />
-	</main>
+		<main>
+			<slot />
+		</main>
 
-	<footer>
-		<nav>
-			<a href="#">Imprint</a>
-			<a href="#">Privacy</a>
-			<a href="#">Contact</a>
-		</nav>
-	</footer>
-</div>
+		<footer>
+			<nav>
+				<a href="#">Imprint</a>
+				<a href="#">Privacy</a>
+				<a href="#">Contact</a>
+			</nav>
+		</footer>
+	</div>
+</QueryClientProvider>
 
 <style>
 	.app {

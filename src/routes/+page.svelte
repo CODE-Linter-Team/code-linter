@@ -11,7 +11,7 @@
 </svelte:head> 
 -->
 <script lang="ts">
-	import { faGear, faUsers } from '@fortawesome/free-solid-svg-icons';
+	import { faNewspaper, faUsers } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa/src/fa.svelte';
 
 	import ArticleCard from './ArticleCard.svelte';
@@ -87,7 +87,7 @@
 	<div class="adminFeatureContainer">
 		<CurrentEventCard url="/articles" title="Manage content" category="Admin feature">
 			<div slot="head" class="svgButton">
-				<Fa icon={faGear} />
+				<Fa icon={faNewspaper} />
 			</div>
 		</CurrentEventCard>
 		<CurrentEventCard url="/users" title="Manage users" category="Admin feature">

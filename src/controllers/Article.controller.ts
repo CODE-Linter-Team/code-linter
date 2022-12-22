@@ -21,10 +21,12 @@ const ArticleController = {
         states: string[] | undefined
     }) {
 
+        const isInvalidArrayOption = (option: string[] | undefined) => (option?.join("").length ?? 0) === 0
+
         const articleDocs = await Article.find({
-            ...(options.contentTags == null ? {} : { contentTags: { $in: options.contentTags } }),
-            ...(options.authors == null ? {} : { authorId: { $in: options.authors } }),
-            ...(options.states == null ? {} : { state: { $in: options.states } }),
+            ...(isInvalidArrayOption(options.contentTags) ? {} : { contentTags: { $in: options.contentTags } }),
+            ...(isInvalidArrayOption(options.authors) ? {} : { authorId: { $in: options.authors } }),
+            ...(isInvalidArrayOption(options.states) ? {} : { state: { $in: options.states } }),
             ...(options.includeInternal ? {} : { scope: "PUBLIC" })
         })
         const articles = await Promise.all(articleDocs.map(ArticleController.refineArticle))

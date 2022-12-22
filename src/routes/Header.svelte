@@ -8,43 +8,20 @@
 	import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 	import UserInfoCard from '../components/UserInfoCard.svelte';
 
-	const isLoggedIn = Object.keys($page.data.session || {}).length;
+	import me, { watch } from '../stores/me.store';
 
 	import { onMount } from 'svelte';
+
+	watch();
+
+	const isLoggedIn = Object.keys($page?.data?.session || {}).length;
 
 	let innerWidth = 0;
 	let innerHeight = 0;
 
-	$: dings = innerWidth < 900;
+	$: isSmol = innerWidth < 900;
 
-	let me: any;
-
-	onMount(async () => {
-		if (!isLoggedIn) return;
-
-		const res = await fetch('/api/me');
-
-		me = (await res.json()).me;
-
-		// $page.data.session!.user = me;
-	});
-
-	const userProfilePicture = $page?.data?.session?.user?.image;
-
-	const userEmail = $page?.data?.session?.user?.email;
-
-	const username = $page?.data?.session?.user?.name;
-
-	const usernameOrEmail = username || userEmail;
-
-	$: user = {
-		name: username!,
-		email: userEmail!,
-		profilePictureSrc: userProfilePicture!,
-		permissions: me?.permissions ?? [],
-		articles: {},
-		articleInfo: me?.articleInfo ?? {}
-	};
+	let user: any;
 
 	export let isAccountPopupOpen = false;
 
@@ -55,6 +32,25 @@
 			return;
 		}
 		isAccountPopupOpen = true;
+	}
+
+	const userProfilePicture = $page?.data?.session?.user?.image;
+
+	const userEmail = $page?.data?.session?.user?.email;
+
+	const username = $page?.data?.session?.user?.name;
+
+	const usernameOrEmail = username || userEmail;
+
+	$: if ($me.isSignedIn) {
+		user = {
+			name: username!,
+			email: userEmail!,
+			profilePictureSrc: userProfilePicture!,
+			permissions: $me?.me?.permissions ?? [],
+			articles: {},
+			articleInfo: $me?.me?.articleInfo ?? {}
+		};
 	}
 </script>
 
@@ -94,7 +90,7 @@
 							{/if}
 						</button>
 					{/if}
-				{:else if dings}
+				{:else if isSmol}
 					<button on:click={() => signIn('google')} style="border: none; background: none">
 						<span class="avatar header-avatar" title={`Sign in with @code.berlin`}>
 							<Fa icon={faSignIn} />

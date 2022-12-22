@@ -2,7 +2,7 @@
 	import ArticleInfoCard from '../ArticleInfoCard.svelte';
 
 	import { browser } from '$app/environment';
-	import { writable } from 'svelte/store';
+	import { readable, writable } from 'svelte/store';
 	import { page } from '$app/stores';
 
 	/** @type {import('./$types').PageData} */
@@ -17,6 +17,13 @@
 
 		const field = writable<string[]>(initialValue);
 
+		// const sus = readable($page.url.searchParams.get(key)?.split(','), (set) => {
+		// 	const update = () => set($page.url.searchParams.get(key)?.split(',') ?? []);
+		// 	// window.addEventListener('hashchange', update);
+		// 	// return () => window.removeEventListener('hashchange', update);
+		// });
+		// sus.subscribe(field.set);
+
 		field.subscribe((value) => {
 			if (browser) {
 				$page.url.searchParams.set(key, value.join(','));
@@ -27,13 +34,38 @@
 	export const authorsFilter = registerUrlField([], 'authors');
 	export const contentTagsFilter = registerUrlField([], 'tags');
 	export const statesFilter = registerUrlField([], 'states');
+
+	import { useQuery } from '@sveltestack/svelte-query';
+
+	const queryResult = useQuery(
+		['articles', $authorsFilter.join(','), $contentTagsFilter.join(','), $statesFilter.join(',')],
+		async function () {
+			const res = await fetch(
+				`http://localhost:5173/api/articles?authors=${$authorsFilter.join(
+					','
+				)}&tags=${$contentTagsFilter.join(',')}&states=${$statesFilter.join(',')}`
+			);
+			const json = await res.json();
+
+			return json;
+		}
+	);
 </script>
 
 <div class="articleList">
-	{#each articles as article}
-		<ArticleInfoCard {article} showStateChangeButtons={true} />
-	{/each}
-	<!-- <div class="sidePanel" /> -->
+	{#if $queryResult.isLoading}
+		{#each articles as article}
+			<ArticleInfoCard {article} showStateChangeButtons={true} />
+		{/each}
+	{:else if $queryResult.error}
+		<span>An error has occurred: {$queryResult.error.message}</span>
+	{:else if $queryResult.data.articles.length > 0}
+		{#each $queryResult.data.articles as article}
+			<ArticleInfoCard {article} showStateChangeButtons={true} />
+		{/each}
+	{:else}
+		Found no articles matching this filter
+	{/if}
 </div>
 
 <style>

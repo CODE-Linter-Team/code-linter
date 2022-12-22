@@ -11,4 +11,4 @@ CODE Linter allows every CODE student to submit their articles for review, hopin
 ## Contact persons
 
 For questions concerning the platform content and redactorial work, reach out to daniel.azomji@code.berlin.
-For technical questions, contact to linus.bolls@code.berlin.
+For technical questions, contact linus.bolls@code.berlin.

@@ -4,17 +4,19 @@
 
 	import UserInfoCard from '../components/UserInfoCard.svelte';
 
-	import { toast } from '@zerodevx/svelte-toast';
-	import { Pulse } from 'svelte-loading-spinners';
-
 	import ToastTheme from '../data/toastThemes';
 
+	import { toast } from '@zerodevx/svelte-toast';
+	import { Pulse } from 'svelte-loading-spinners';
 	import dayjs from 'dayjs';
 
 	interface User {
 		name: string;
 		email: string;
 		image: string;
+
+		permissions: string[];
+		articleInfo: any;
 	}
 	interface Article {
 		id: string;
