@@ -4,6 +4,7 @@
 
 	import Header from './Header.svelte';
 	import './styles.css';
+	import './bytemd.css';
 
 	import 'bytemd/dist/index.css';
 

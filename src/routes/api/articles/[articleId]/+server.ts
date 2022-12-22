@@ -1,27 +1,16 @@
 import { error } from '@sveltejs/kit';
 import ArticleController from '../../../../controllers/Article.controller';
 
-import { v4 as getUuid } from 'uuid';
+export async function GET({ params, locals }: any) {
+	const { user = null } = await locals.getSession() ?? {};
 
-export async function GET(ding: any) {
-	const { user } = await ding.locals.getSession();
-
-	const { url } = ding;
-
-	const min = Number(url.searchParams.get('min') ?? '0');
-	const max = Number(url.searchParams.get('max') ?? '1');
+	const isSignedIn = user != null
 
 	// const clientIp = rest.getClientAddress()
 
-	// await Article.updateOne({$where: { id: }})
+	const fingerPrint = Math.random().toString()
 
-	const d = max - min;
+	const article = await ArticleController.read(params.articleId, isSignedIn, fingerPrint)
 
-	if (isNaN(d) || d < 0) {
-		throw error(400, 'min and max must be numbers, and min must be less than max');
-	}
-
-	const random = min + Math.random() * d;
-
-	return new Response(String(random));
+	return new Response(JSON.stringify({ article }), { headers: { 'Content-Type': 'application/json' } });
 }

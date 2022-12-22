@@ -1,0 +1,131 @@
+/*
+ * we prefix everything with body to have a higher selector specificity
+ * than the default bytemd styles, saving us from having to postfix
+ * everything with !important.
+ *
+*/
+
+body .bytemd {
+    background: var(--vscode-layer1);
+
+    color: var(--vscode-text);
+    border: none;
+    border-radius: 6px;
+
+    overflow: hidden;
+
+    height: 40rem;
+}
+
+body .bytemd-toolbar {
+    background: var(--vscode-layer1);
+    border-bottom: 1px solid var(--vscode-layer3) !important;
+}
+
+body .bytemd-preview {
+    border-left: 1px solid var(--vscode-layer3) !important;
+}
+
+body .CodeMirror {
+    background: var(--vscode-layer1);
+    color: var(--vscode-text);
+}
+
+body .markdown-body {}
+
+body .bytemd-status {
+    border-top: 1px solid var(--vscode-layer3) !important;
+}
+
+body .CodeMirror .cm-header {
+    color: #569cd6;
+}
+
+body .CodeMirror .cm-link {
+    color: #ce9178;
+    text-decoration: none;
+}
+
+body .CodeMirror .cm-url {
+    color: white;
+    text-decoration: underline;
+}
+
+body .markdown-body h1 {
+    color: white;
+}
+
+body .markdown-body h2 {
+    color: white;
+}
+
+body .markdown-body h3 {
+    color: white;
+}
+
+body .markdown-body h4 {
+    color: white;
+}
+
+body .markdown-body h5 {
+    color: white;
+}
+
+body .markdown-body h6 {
+    color: white;
+}
+
+body .markdown-body a {
+    color: var(--primary);
+}
+
+body .cm-variable-2 {
+    color: #569cd6 !important;
+}
+
+body .bytemd-status input[type='checkbox'] {
+    accent-color: var(--primary);
+}
+
+body .CodeMirror span {
+    color: white;
+}
+
+body .CodeMirror .cm-quote {
+    color: #699855;
+}
+
+body .CodeMirror .cm-comment {
+    color: #ce9178;
+}
+
+body .CodeMirror .cm-meta {
+    color: #ce9178;
+}
+
+body .CodeMirror .cm-builtin {
+    color: #ce9178;
+}
+
+body .CodeMirror .CodeMirror-cursor {
+    border-color: white;
+}
+
+body .markdown-body img {
+
+    max-width: 100%;
+}
+
+body .markdown-body * {
+    white-space: break-spaces;
+}
+
+body .markdown-body code {
+
+    background: var(--vscode-layer3);
+
+    padding: 2px 5px;
+    border-radius: 2px;
+
+    font-size: 0.9rem;
+}

@@ -38,6 +38,7 @@
 	"dependencies": {
 		"@auth/core": "^0.1.4",
 		"@auth/sveltekit": "^0.1.6",
+		"@bytemd/plugin-gemoji": "^1.18.0",
 		"@bytemd/plugin-gfm": "^1.18.0",
 		"@fortawesome/free-brands-svg-icons": "^6.2.1",
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",

@@ -35,15 +35,26 @@ const ArticleController = {
 
 		return articles;
 	},
+	async read(_id: string, includeInternal: boolean, fingerPrint: string) {
+
+		// TODO: handle read
+		// await Article.updateOne({$where: { id: _id }}, { $inc: viewCount })
+
+		const article = await Article.findOne(includeInternal ? { _id, state: "PUBLISHED" } : { _id, state: "PUBLISHED", scope: 'PUBLIC' })
+
+		return await ArticleController.refineArticle(article)
+	},
 	async submitArticleForReview(articleBody: CreateArticleBody) {
-		const ding = {
+		const fullArticleBody = {
 			...articleBody,
 			state: ['PENDING'],
 			submittedDate: Date.now(),
 			publisherId: null,
 			publishedDate: null
 		};
-		const article = new Article(ding);
+		const article = new Article(fullArticleBody);
+
+		article.url = "http://localhost:5173/articles/" + article._id
 
 		await article.save();
 	},
@@ -66,6 +77,9 @@ const ArticleController = {
 		);
 	},
 	async refineArticle(rawArticle: any) {
+
+		if (rawArticle == null) return null
+
 		const {
 			_id,
 			scope,

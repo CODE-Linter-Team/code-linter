@@ -1,5 +1,46 @@
 <script lang="ts">
-	// coverImgSrc: string
+	const defaultMarkdownContent = `## Writing your first article
+
+So you wanna write an article huh?
+Easy as cake, just fill out all the required fields and hit ***submit***.
+But please, finish reading this text first :)
+
+### CODE-Linter content guidelines
+
+CODE-Linter presents itself as a respectable platform, so please respect a few rules:
+
+#### Objectivity
+
+#### Respecting others
+If you include people inside or outside of CODE in your article, ask them for permission beforehand.
+If the article should best remain inside the CODE community, toggle the \`Internal article\` switch at the top of the editor.
+
+#### Topical relevance
+Even though CODE is primarily a tech university, we accept articles on any topic given relevance to CODE.
+
+You can tell your article is not suitable for CODE-Linter if:
+- its purely focused on tech or current events, consider posting this on a blog instead
+
+### Text format
+CODE-Linter uses \`markdown\` as its content format of choice. If you're not familiar with the syntax, you can find a guide [here](https://www.markdownguide.org/basic-syntax/).
+
+#### Images
+- Article submissions with foreign image urls will get rejected.
+Upload images using the button at the top of the editor instead.
+- Submissions with images that you don't have usage rights for will get rejected.
+
+### Submitting your article for review
+
+Once your article is finished, just hit the submit button.
+If you're and admin, you can just head.
+Otherwise, you'll have to wait until your article either gets published or rejected.
+Check the status of your pending articles anytime by clicking on your profile picture at the top of the page.
+
+
+![Good luck](https://t4.ftcdn.net/jpg/02/24/11/57/360_F_224115780_2ssvcCoTfQrx68Qsl5NxtVIDFWKtAgq2.jpg "Good luck")
+
+> this is how you do comments
+\\- sun tzu`;
 
 	import { writable } from 'svelte/store';
 	import { toast } from '@zerodevx/svelte-toast';
@@ -10,6 +51,10 @@
 	import ToastTheme from '../../data/toastThemes';
 	import Toggle from '../../components/Toggle.svelte';
 	import FileInput from '../../components/FileInput.svelte';
+
+	import { Editor } from 'bytemd';
+	import gfm from '@bytemd/plugin-gfm';
+	import gemoji from '@bytemd/plugin-gemoji';
 
 	function registerLocalField<T extends unknown>(defaultValue: T, key: string) {
 		const initialValue = browser
@@ -32,7 +77,7 @@
 		'code-linter:compose-field:description'
 	);
 	export const markdownContent = registerLocalField<string>(
-		'',
+		defaultMarkdownContent,
 		'code-linter:compose-field:markdown-content'
 	);
 	export const coverImg = registerLocalField<(File & { url: string }) | null>(
@@ -57,7 +102,7 @@
 		const body = {
 			title: $title,
 			description: $description,
-			markdownContent: $markdownContent,
+			markdownText: $markdownContent,
 			coverImgSrc: $coverImg?.url,
 			contentTags: [$topic],
 			scope: $isInternal ? 'INTERNAL' : 'PUBLIC'
@@ -71,7 +116,7 @@
 
 			title.set('');
 			description.set('');
-			markdownContent.set('');
+			markdownContent.set(defaultMarkdownContent);
 			coverImg.set(null);
 			topic.set('');
 			isInternal.set(false);
@@ -90,14 +135,6 @@
 		}
 	}
 	$: isSubmitting = state.state === 'SUBMITTING';
-
-	import { Editor, Viewer } from 'bytemd';
-	import gfm from '@bytemd/plugin-gfm';
-
-	const plugins = [
-		gfm()
-		// Add more plugins here
-	];
 
 	$: files = $coverImg == null ? [] : [$coverImg];
 
@@ -163,11 +200,14 @@
 
 	<Editor
 		value={$markdownContent}
-		{plugins}
+		plugins={[gfm(), gemoji()]}
 		on:change={handleChange}
 		previewDebounce={10}
 		placeholder="Article content"
 		uploadImages={uploadEditorImages}
+		editorConfig={{
+			theme: 'neo'
+		}}
 	/>
 	<!-- <Viewer value={$markdownContent} /> -->
 
@@ -196,6 +236,12 @@ commentGreen: '#699855' -->
 <!-- internal switch
 tag select -->
 <style>
+	.editor {
+		display: flex;
+		flex-direction: column;
+
+		gap: 1rem;
+	}
 	.booleanRow {
 		display: flex;
 		align-items: center;
@@ -245,12 +291,6 @@ tag select -->
 	.button:hover {
 		filter: brightness(1.1);
 	}
-	.editor {
-		display: flex;
-		flex-direction: column;
-
-		gap: 1rem;
-	}
 	input {
 		height: 2.5rem;
 
@@ -266,7 +306,6 @@ tag select -->
 
 		transition-duration: 0.2s;
 	}
-
 	input:hover,
 	.textBox:hover {
 		filter: brightness(1.1);
@@ -287,88 +326,5 @@ tag select -->
 		transition: filter 0.2s;
 
 		font-family: inherit;
-	}
-	:global(.bytemd) {
-		background: var(--vscode-layer1);
-
-		color: var(--vscode-text);
-		border: none;
-		border-radius: 6px;
-
-		overflow: hidden;
-
-		height: 40rem;
-	}
-	:global(.bytemd-toolbar) {
-		background: var(--vscode-layer1);
-		border-bottom: 1px solid var(--vscode-layer3) !important;
-	}
-	:global(.bytemd-preview) {
-		border-left: 1px solid var(--vscode-layer3) !important;
-	}
-	:global(.CodeMirror) {
-		background: var(--vscode-layer1);
-		color: var(--vscode-text);
-	}
-	:global(.markdown-body) {
-	}
-
-	:global(.bytemd-status) {
-		border-top: 1px solid var(--vscode-layer3) !important;
-	}
-
-	:global(.CodeMirror) :global(.cm-header) {
-		color: #569cd6;
-	}
-	:global(.CodeMirror) :global(.cm-link) {
-		color: #ce9178;
-		text-decoration: none;
-	}
-	:global(.CodeMirror) :global(.cm-url) {
-		color: white;
-		text-decoration: underline;
-	}
-	:global(.markdown-body) :global(h1) {
-		color: white;
-	}
-	:global(.markdown-body) :global(h2) {
-		color: white;
-	}
-
-	:global(.markdown-body) :global(h3) {
-		color: white;
-	}
-	:global(.markdown-body) :global(h4) {
-		color: white;
-	}
-	:global(.markdown-body) :global(h5) {
-		color: white;
-	}
-	:global(.markdown-body) :global(h6) {
-		color: white;
-	}
-	:global(.markdown-body) :global(a) {
-		color: var(--primary);
-	}
-	:global(.cm-variable-2) {
-		color: #569cd6 !important;
-	}
-	:global(.bytemd-status) :global(input[type='checkbox']) {
-		accent-color: var(--primary);
-	}
-	:global(.CodeMirror) :global(span) {
-		color: white;
-	}
-	:global(.CodeMirror) :global(.cm-quote) {
-		color: #699855;
-	}
-	:global(.CodeMirror) :global(.cm-comment) {
-		color: #ce9178;
-	}
-	:global(.CodeMirror) :global(.cm-meta) {
-		color: #ce9178;
-	}
-	:global(.CodeMirror) :global(.CodeMirror-cursor) {
-		border-color: white;
 	}
 </style>

@@ -58,7 +58,6 @@ async function seedDatabase() {
 		description:
 			'Sie kleben sich an Straßen und Gemälde oder blockieren Rollfelder. Doch das sind nicht die Gründe für die bundesweite Razzia gegen einige Aktivisten der "Letzten Generation".',
 		contentTags: ['Technology'],
-		url: '/articles/test',
 		submittedDate: 0,
 		publishedDate: 0,
 		markdownText: `# 2021 Wrap-Up | Malik Piara
@@ -92,6 +91,7 @@ I’m proud to have taken steps towards improving myself and letting go of my un
 Ben Bachem, Jonathan Freiberger, Moritz Eich, Hanno Grimm, Teodora Trposka, Johann Hemmann, Dennis Willmann and Lukas Müller kept me sane while I felt alone in Lisbon. And they helped accelerate my learning. That’s one of the things I love about CODE. I’m smiling thinking about how many people are there for me and with whom I can learn anything I want faster than I could ever before.
 `
 	});
+	testArticle.url = "http://localhost:5173/articles/" + testArticle._id
 	await testArticle.save();
 }
 seedDatabase();
