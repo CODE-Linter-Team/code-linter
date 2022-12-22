@@ -102,7 +102,7 @@
 			accept="image/*"
 		>
 			<Fa icon={faImage} />
-			<span>{`Click or drag and drop to add a hero image (max size ${maxSizeMb}mb)`}</span>
+			<span>{`Click or drag and drop to add a hero image (max size is ${maxSizeMb}mb)`}</span>
 		</Dropzone>
 	{/if}
 </div>
@@ -365,7 +365,7 @@ export type { FileInputProps, FileType, FileState }; -->
 		position: relative;
 
 		width: 100%;
-		height: 10rem;
+		height: 100%;
 
 		border-radius: 6px;
 		overflow: hidden;
@@ -377,8 +377,7 @@ export type { FileInputProps, FileType, FileState }; -->
 		justify-content: center;
 
 		width: 100%;
-
-		min-height: 10rem;
+		height: 100%;
 
 		background: var(--vscode-layer1);
 

@@ -57,6 +57,10 @@ body .markdown-body h1 {
 
 body .markdown-body h2 {
     color: white;
+
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 body .markdown-body h3 {
@@ -127,5 +131,5 @@ body .markdown-body code {
     padding: 2px 5px;
     border-radius: 2px;
 
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }

@@ -2,7 +2,7 @@
 	const defaultMarkdownContent = `## Writing your first article
 
 So you wanna write an article huh?
-Easy as cake, just fill out all the required fields and hit ***submit***.
+Easy as cake, just fill out all the required fields and hit \`Submit for review\`.
 But please, finish reading this text first :)
 
 ### CODE-Linter content guidelines
@@ -191,10 +191,17 @@ Check the status of your pending articles anytime by clicking on your profile pi
 		<span>Internal article</span>
 		<Toggle isToggled={$isInternal} />
 	</div>
-	<FileInput {files} {setFiles} />
-	<input bind:value={$title} type="text" placeholder="Article title" />
-	<input bind:value={$description} type="text" placeholder="Article description" />
-	<input bind:value={$topic} type="text" placeholder="Article topic" />
+
+	<div style="display: flex; flex-wrap: wrap; gap: 2rem">
+		<div class="resizing-column">
+			<input bind:value={$title} type="text" placeholder="Article title" />
+			<input bind:value={$description} type="text" placeholder="Article description" />
+			<input bind:value={$topic} type="text" placeholder="Article topic" />
+		</div>
+		<div class="resizing-column">
+			<FileInput {files} {setFiles} />
+		</div>
+	</div>
 
 	<!-- <span class="textBox" role="textbox" contenteditable>{$markdownContent}</span> -->
 
@@ -240,7 +247,7 @@ tag select -->
 		display: flex;
 		flex-direction: column;
 
-		gap: 1rem;
+		gap: 2rem;
 	}
 	.booleanRow {
 		display: flex;
@@ -326,5 +333,18 @@ tag select -->
 		transition: filter 0.2s;
 
 		font-family: inherit;
+	}
+	.resizing-column {
+		display: flex;
+		flex-direction: column;
+
+		gap: 0.5rem;
+
+		width: calc(50% - 1rem);
+	}
+	@media (max-width: 52rem) {
+		.resizing-column {
+			width: 100% !important;
+		}
 	}
 </style>
