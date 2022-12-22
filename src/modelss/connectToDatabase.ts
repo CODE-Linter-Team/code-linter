@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export default async function connectToDatabase() {
-
-    await mongoose.connect("mongodb://localhost:27017/suuus", { autoIndex: false });
+	await mongoose.connect('mongodb://localhost:27017/suuus', { autoIndex: false });
 }

@@ -1,69 +1,67 @@
-import SvelteKitAuth from "@auth/sveltekit";
+import SvelteKitAuth from '@auth/sveltekit';
 import Google from '@auth/core/providers/google';
-import connectToDatabase from "./modelss/connectToDatabase";
-import Article from "./modelss/Article";
-import User from "./modelss/User";
-import Permission from "./data/permissions";
+import connectToDatabase from './modelss/connectToDatabase';
+import Article from './modelss/Article';
+import User from './modelss/User';
+import Permission from './data/permissions';
 
-const GOOGLE_ID = "34788858697-r8ehr0qfe99md69sl3h2m8tmshgjhamh.apps.googleusercontent.com"
-const GOOGLE_SECRET = "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"
+const GOOGLE_ID = '34788858697-r8ehr0qfe99md69sl3h2m8tmshgjhamh.apps.googleusercontent.com';
+const GOOGLE_SECRET = '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';
 
 export const handle = SvelteKitAuth({
-    providers: [
-        Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET }),
-    ],
-    secret: "susbaker"
+	providers: [Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET })],
+	secret: 'susbaker'
 });
 
 async function seedDatabase() {
+	await User.deleteMany();
+	await Article.deleteMany();
 
-    await User.deleteMany()
-    await Article.deleteMany()
+	const ALL_PERMISSIONS = Object.keys(Permission);
 
-    const ALL_PERMISSIONS = Object.keys(Permission)
+	await connectToDatabase();
 
-    await connectToDatabase()
+	const linus = new User({
+		name: 'Linus Bolls',
+		email: 'linus.bolls@code.berlin',
+		image: 'https://lh3.googleusercontent.com/a/AEdFTp6PSy2Omni3BiexQvgjuZwIoUsnujabr6eVZvC0=s96-c',
+		permissions: ALL_PERMISSIONS
+	});
+	await linus.save();
 
-    const linus = new User({
-        name: "Linus Bolls",
-        email: "linus.bolls@code.berlin",
-        image: "https://lh3.googleusercontent.com/a/AEdFTp6PSy2Omni3BiexQvgjuZwIoUsnujabr6eVZvC0=s96-c",
-        permissions: ALL_PERMISSIONS,
-    })
-    await linus.save()
+	const laurin = new User({
+		name: 'Laurin Notemann',
+		email: 'laurin.notemann@code.berlin',
+		image: 'https://lh3.googleusercontent.com/a/AEdFTp4DZtIehcTa3BXJ0Wh-ykeGj43bWgVeT3DB0UMO=s96-c',
+		permissions: ALL_PERMISSIONS
+	});
+	await laurin.save();
 
-    const laurin = new User({
-        name: "Laurin Notemann",
-        email: "laurin.notemann@code.berlin",
-        image: "https://lh3.googleusercontent.com/a/AEdFTp4DZtIehcTa3BXJ0Wh-ykeGj43bWgVeT3DB0UMO=s96-c",
-        permissions: ALL_PERMISSIONS,
-    })
-    await laurin.save()
+	const daniel = new User({
+		name: 'Daniel Azomji',
+		email: 'daniel.azomji@code.berlin',
+		image:
+			'https://lh3.googleusercontent.com/a-/AD5-WClbXchZjeOgyZG8IG8iojnarP5nvv18RJlHjHM3OAtlEdsFRX4SvQJWLUVJUeLn=s96-c',
+		permissions: ALL_PERMISSIONS
+	});
+	await daniel.save();
 
-    const daniel = new User({
-        name: "Daniel Azomji",
-        email: "daniel.azomji@code.berlin",
-        image: "https://lh3.googleusercontent.com/a-/AD5-WClbXchZjeOgyZG8IG8iojnarP5nvv18RJlHjHM3OAtlEdsFRX4SvQJWLUVJUeLn=s96-c",
-        permissions: ALL_PERMISSIONS,
-    })
-    await daniel.save()
+	const testArticle = new Article({
+		scope: 'PUBLIC',
+		state: ['PUBLISHED'],
 
-    const testArticle = new Article({
-        scope: "PUBLIC",
-        state: ["PUBLISHED"],
+		authorId: 'linus.bolls@code.berlin',
+		publisherId: 'linus.bolls@code.berlin',
 
-        authorId: "linus.bolls@code.berlin",
-        publisherId: "linus.bolls@code.berlin",
-
-        coverImgSrc: 'https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492__340.jpg',
-        title: `Ab wann sind Klimaaktivisten eine "kriminelle Vereinigung"?`,
-        description:
-            'Sie kleben sich an Straßen und Gemälde oder blockieren Rollfelder. Doch das sind nicht die Gründe für die bundesweite Razzia gegen einige Aktivisten der "Letzten Generation".',
-        contentTags: ['Technology'],
-        url: '/articles/test',
-        submittedDate: 0,
-        publishedDate: 0,
-        markdownText: `# 2021 Wrap-Up | Malik Piara
+		coverImgSrc: 'https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492__340.jpg',
+		title: `Ab wann sind Klimaaktivisten eine "kriminelle Vereinigung"?`,
+		description:
+			'Sie kleben sich an Straßen und Gemälde oder blockieren Rollfelder. Doch das sind nicht die Gründe für die bundesweite Razzia gegen einige Aktivisten der "Letzten Generation".',
+		contentTags: ['Technology'],
+		url: '/articles/test',
+		submittedDate: 0,
+		publishedDate: 0,
+		markdownText: `# 2021 Wrap-Up | Malik Piara
 
 We are very excited to share today’s 2021 wrap-up which is dedicated to Malik Piara, #NextGeneration Product Management student.
 
@@ -93,7 +91,7 @@ I’m proud to have taken steps towards improving myself and letting go of my un
 
 Ben Bachem, Jonathan Freiberger, Moritz Eich, Hanno Grimm, Teodora Trposka, Johann Hemmann, Dennis Willmann and Lukas Müller kept me sane while I felt alone in Lisbon. And they helped accelerate my learning. That’s one of the things I love about CODE. I’m smiling thinking about how many people are there for me and with whom I can learn anything I want faster than I could ever before.
 `
-    })
-    await testArticle.save()
+	});
+	await testArticle.save();
 }
-seedDatabase()
+seedDatabase();

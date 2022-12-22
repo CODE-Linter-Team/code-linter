@@ -4,65 +4,59 @@ import { page } from '$app/stores';
 import type { Session } from '@auth/core';
 
 interface SignedInMe {
+	isSignedIn: true;
+	isLoading: false;
 
-    isSignedIn: true
-    isLoading: false
+	permissions: string[];
 
-    permissions: string[]
-
-    articleInfo: {
-        publishedCount: number
-        pendingCount: number
-        rejectedCount: number
-    }
+	articleInfo: {
+		publishedCount: number;
+		pendingCount: number;
+		rejectedCount: number;
+	};
 }
 interface SignedOutMe {
-
-    isSignedIn: false
-    isLoading: false
-
+	isSignedIn: false;
+	isLoading: false;
 }
 interface LoadingMe {
-
-    isSignedIn: true
-    isLoading: true
+	isSignedIn: true;
+	isLoading: true;
 }
-type AdditionalFetchedInfo = SignedOutMe | SignedInMe | LoadingMe
+type AdditionalFetchedInfo = SignedOutMe | SignedInMe | LoadingMe;
 
-type Me = Session["user"] & AdditionalFetchedInfo
+type Me = Session['user'] & AdditionalFetchedInfo;
 
-const me = writable<Me>({ isSignedIn: true, isLoading: true })
+const me = writable<Me>({ isSignedIn: true, isLoading: true });
 
 export function watch() {
+	page.subscribe(async (data) => {
+		const isSignedIn = Object.keys(data.data.session || {}).length > 0;
 
-    page.subscribe(async data => {
+		if (!isSignedIn) {
+			me.set({
+				isSignedIn,
+				isLoading: false
+			});
+			return;
+		}
+		const res = await fetch('http://localhost:5173/api/me');
 
-        const isSignedIn = Object.keys(data.data.session || {}).length > 0;
+		const meData: {
+			permissions: string[];
 
-        if (!isSignedIn) {
-            me.set({
-                isSignedIn,
-                isLoading: false,
-            })
-            return
-        }
-        const res = await fetch("http://localhost:5173/api/me")
+			articleInfo: {
+				publishedCount: number;
+				pendingCount: number;
+				rejectedCount: number;
+			};
+		} = await res.json();
 
-        const meData: {
-            permissions: string[]
-
-            articleInfo: {
-                publishedCount: number
-                pendingCount: number
-                rejectedCount: number
-            }
-        } = await res.json()
-
-        me.set({
-            isSignedIn,
-            isLoading: false,
-            ...meData
-        })
-    })
+		me.set({
+			isSignedIn,
+			isLoading: false,
+			...meData
+		});
+	});
 }
-export default me
+export default me;

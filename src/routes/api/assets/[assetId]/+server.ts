@@ -5,23 +5,24 @@ import AssetController from '../../../../controllers/Asset.controller';
 import UserController from '../../../../controllers/User.controller';
 import Permission from '../../../../data/permissions';
 
-import fs from "fs"
+import fs from 'fs';
 
 export async function GET({ locals, request, params }: any) {
+	await connectToDatabase();
 
-    await connectToDatabase()
+	const fileExtensionMatch = params.assetId.match(/^(.*).jpeg$/);
 
-    const fileExtensionMatch = params.assetId.match(/^(.*).jpeg$/)
+	if (fileExtensionMatch == null) {
+		const asset = await AssetController.get(params.assetId);
 
-    if (fileExtensionMatch == null) {
+		return new Response(JSON.stringify(asset), {
+			headers: { 'Content-Type': 'application/json' },
+			status: 201
+		});
+	}
+	const asset = await AssetController.get(fileExtensionMatch[1]);
 
-        const asset = await AssetController.get(params.assetId)
+	fs.writeFileSync('/users/linusbolls/amogus.jpeg', asset.data);
 
-        return new Response(JSON.stringify(asset), { headers: { "Content-Type": "application/json" }, status: 201 })
-    }
-    const asset = await AssetController.get(fileExtensionMatch[1])
-
-    fs.writeFileSync("/users/linusbolls/amogus.jpeg", asset.data)
-
-    return new Response(asset.data, { headers: { "Content-Type": "image/jpeg" }, status: 200 })
+	return new Response(asset.data, { headers: { 'Content-Type': 'image/jpeg' }, status: 200 });
 }

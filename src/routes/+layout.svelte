@@ -6,15 +6,13 @@
 
 	import 'bytemd/dist/index.css';
 
-	const options = {};
-
 	import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
 
 	const queryClient = new QueryClient();
 </script>
 
 <QueryClientProvider client={queryClient}>
-	<SvelteToast {options} />
+	<SvelteToast />
 
 	<div class="app">
 		<Header />

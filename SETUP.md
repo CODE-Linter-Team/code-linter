@@ -20,7 +20,7 @@ brew services start mongodb-community@6.0
 npm i --force
 ```
 
-## Running locally 
+## Running locally
 
 ```bash
 # run the app with hot module reload at http://localhost:5173
