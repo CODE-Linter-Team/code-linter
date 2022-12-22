@@ -16,6 +16,8 @@
 
 	$: isFull = files.length >= maxFiles;
 
+	$: hasFiles = files.length > 0;
+
 	async function removeFile(idToBeRemoved: string) {
 		setFiles(files.filter((i) => i.id !== idToBeRemoved));
 	}
@@ -82,8 +84,8 @@
 	}
 </script>
 
-<div class="dropzoneFileInput">
-	{#if files.length > 0}
+<div class={'dropzoneFileInput' + (hasFiles ? '' : ' dropzoneFileInput--empty')}>
+	{#if hasFiles}
 		{#each files as file}
 			<div class="uploadedImageContent">
 				<button class="closeButton" title="Remove image" on:click={removeFile(file.id)}>

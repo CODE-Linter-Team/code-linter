@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import { SECRET_MONGODB_CONNECTION_STRING } from "$env/static/private"
+
 export default async function connectToDatabase() {
-	await mongoose.connect('mongodb://localhost:27017/suuus', { autoIndex: false });
+	await mongoose.connect(SECRET_MONGODB_CONNECTION_STRING, { autoIndex: false });
 }

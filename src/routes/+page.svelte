@@ -166,4 +166,9 @@
 
 		overflow: hidden;
 	}
+	@media (max-width: 42rem) {
+		.adminFeatureContainer {
+			flex-direction: column;
+		}
+	}
 </style>

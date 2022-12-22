@@ -1,37 +1,37 @@
 <footer>
-    <div class="impressum">
-        <h3>Impressum</h3>
-        <div class="impressumContent">
-            <p>
-                <strong>Address</strong>
-                <br>
-                CODE Education GmbH
-                <br>
-                Lohmühlenstrasse 65
-                <br>
-                12435 Berlin
-                <br>
-                Deutschland
-                <br>
-            </p>
-            <p>
-                <strong>Contact</strong>
-                <br>
-                Name: Daniel Azomji
-                <br>
-                Email: daniel.azomji@code.berlin
-                <br>
-                Tel.: +49 123 4567891
-            </p>
-        </div>
-    </div>
-    <nav>
-        <a href="#">Privacy</a>
-    </nav>
+	<div class="impressum">
+		<h3>Impressum</h3>
+		<div class="impressumContent">
+			<p>
+				<strong>Address</strong>
+				<br />
+				CODE Education GmbH
+				<br />
+				Lohmühlenstrasse 65
+				<br />
+				12435 Berlin
+				<br />
+				Deutschland
+				<br />
+			</p>
+			<p>
+				<strong>Contact</strong>
+				<br />
+				Name: Daniel Azomji
+				<br />
+				Email: daniel.azomji@code.berlin
+				<br />
+				Tel.: +49 123 4567891
+			</p>
+		</div>
+	</div>
+	<nav>
+		<a href="#">Privacy</a>
+	</nav>
 </footer>
 
 <style>
-    footer {
+	footer {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -42,7 +42,7 @@
 
 		width: 100%;
 
-		height: 300px;
+		min-height: 300px;
 
 		margin-top: 8rem;
 	}
@@ -60,7 +60,6 @@
 		display: flex;
 
 		justify-content: center;
-
 	}
 	nav a {
 		display: grid;
@@ -68,7 +67,7 @@
 
 		height: 100%;
 		padding: 0.5rem 3rem;
-        text-decoration-line: underline;
+		text-decoration-line: underline;
 		color: var(--vscode-text);
 	}
 
@@ -79,27 +78,32 @@
 			gap: 3rem;
 		}
 	}
-    .impressum {
-        color: var(--vscode-text);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+	.impressum {
+		color: var(--vscode-text);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
 
-    .impressum strong  {
-        color: white
-    }
-    .impressum h3{
-        color : white;
-        /* align-self: center; */
-    }
-    .impressumContent {
-        display: flex;
-        flex-direction: row;
-    }
+	.impressum strong {
+		color: white;
+	}
+	.impressum h3 {
+		color: white;
+		/* align-self: center; */
+	}
+	.impressumContent {
+		display: flex;
+		flex-direction: row;
+	}
+	@media (max-width: 32rem) {
+		.impressumContent {
+			flex-direction: column;
+		}
+	}
 
-    .impressumContent p {
-        min-width: 250px;
-        align-self: center;
-    }
+	.impressumContent p {
+		min-width: 250px;
+		align-self: center;
+	}
 </style>

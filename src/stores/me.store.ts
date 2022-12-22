@@ -3,6 +3,8 @@ import { writable } from 'svelte/store';
 import { page } from '$app/stores';
 import type { Session } from '@auth/core';
 
+import { PUBLIC_SERVICE_URL } from "$env/static/public"
+
 interface SignedInMe {
 	isSignedIn: true;
 	isLoading: false;
@@ -40,7 +42,7 @@ export function watch() {
 			});
 			return;
 		}
-		const res = await fetch('http://localhost:5173/api/me');
+		const res = await fetch(PUBLIC_SERVICE_URL + '/api/me');
 
 		const meData: {
 			permissions: string[];

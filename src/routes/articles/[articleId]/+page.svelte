@@ -1,6 +1,4 @@
 <script>
-	import SvelteMarkdown from 'svelte-markdown';
-
 	export let data;
 
 	const article = data.article;
@@ -14,6 +12,7 @@
 	{:else}
 		<img src={article.coverImgSrc} class="headerImg" />
 		<!-- <SvelteMarkdown source={article.markdownText} /> -->
+		<h1 class="articleCaption">{article.title}</h1>
 		<Viewer value={article.markdownText} />
 	{/if}
 </article>

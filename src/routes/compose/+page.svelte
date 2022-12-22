@@ -56,6 +56,87 @@ Check the status of your pending articles anytime by clicking on your profile pi
 	import gfm from '@bytemd/plugin-gfm';
 	import gemoji from '@bytemd/plugin-gemoji';
 
+	import { visit } from 'unist-util-visit';
+
+	// const find = /\@(\+1|[-\w]+)\@/g;
+
+	const find = /\@\[user\]/;
+
+	const own = {}.hasOwnProperty;
+
+	function idToCodeUniversityEntity(entityId: string) {
+		return 'sus';
+	}
+
+	function remarkCodeUniversityEntities() {
+		return (tree: any) => {
+			console.log('tree call:', tree);
+
+			visit(tree, 'text', (node) => {
+				const value = node.value;
+
+				const slices: string[] = [];
+				find.lastIndex = 0;
+				let match = find.exec(value);
+
+				// console.log('match:', match, node.value);
+				let start = 0;
+
+				// console.log('match:', match);
+				console.log(node);
+
+				while (match) {
+					const entityId = match[1];
+					const position = match.index;
+
+					const entity = idToCodeUniversityEntity(entityId);
+
+					if (entity != null) {
+						if (start !== position) {
+							slices.push(value.slice(start, position));
+						}
+						slices.push(idToCodeUniversityEntity(entityId));
+
+						start = position + match[0].length;
+					} else {
+						find.lastIndex = position + 1;
+					}
+					match = find.exec(value);
+				}
+
+				if (slices.length > 0) {
+					slices.push(value.slice(start));
+					node.value = slices.join('');
+				}
+			});
+		};
+	}
+
+	function codeUniversityEntities() {
+		return {
+			// remark: (processor: any) => {
+			// 	return processor.use(remarkCodeUniversityEntities);
+			// },
+			// viewerEffect({ markdownBody }: { markdownBody: HTMLDivElement }) {
+			// 	const els = markdownBody.querySelectorAll<HTMLParagraphElement>('p');
+			// 	for (const el of els) {
+			// 		console.log(el.innerText, el.children, el.childNodes);
+			// 		if (el.innerText === '@user') {
+			// 			console.log('makung');
+			// 			const link = el.querySelector('a');
+			// 			if (link == null) continue;
+			// 			el.classList.add('entityLink');
+			// 			el.insertAdjacentHTML(
+			// 				'beforeend',
+			// 				`<div class="entityLink__entityCard">mooin ${link.href}</div>`
+			// 			);
+			// 			link.innerHTML = 'Linus Bolls';
+			// 		}
+			// 	}
+			// }
+		};
+	}
+
 	function registerLocalField<T extends unknown>(defaultValue: T, key: string) {
 		const initialValue = browser
 			? JSON.parse(window.localStorage.getItem(key)!) ?? defaultValue
@@ -98,7 +179,17 @@ Check the status of your pending articles anytime by clicking on your profile pi
 		markdownContent.set(e.detail.value);
 	}
 
+	export let fieldContainer: any = null;
+
 	async function submitForReview() {
+		if ($title.length < 12 || $description.length < 42 || $topic.length < 1 || $coverImg == null) {
+			shouldHighlightInvalidInputs = true;
+
+			fieldContainer.scrollIntoView();
+
+			return;
+		}
+
 		const body = {
 			title: $title,
 			description: $description,
@@ -180,9 +271,10 @@ Check the status of your pending articles anytime by clicking on your profile pi
 		);
 		return refinedFiles.map(({ url, title, alt }) => ({ url, title, alt }));
 	}
+	export let shouldHighlightInvalidInputs = false;
 </script>
 
-<div class="editor">
+<div class={'editor' + (shouldHighlightInvalidInputs ? ' editor--highlightInvalidInputs' : '')}>
 	<div
 		class="booleanRow"
 		on:click={() => isInternal.set(!$isInternal)}
@@ -192,11 +284,18 @@ Check the status of your pending articles anytime by clicking on your profile pi
 		<Toggle isToggled={$isInternal} />
 	</div>
 
-	<div style="display: flex; flex-wrap: wrap; gap: 2rem">
+	<div style="display: flex; flex-wrap: wrap; gap: 2rem" bind:this={fieldContainer}>
 		<div class="resizing-column">
-			<input bind:value={$title} type="text" placeholder="Article title" />
-			<input bind:value={$description} type="text" placeholder="Article description" />
-			<input bind:value={$topic} type="text" placeholder="Article topic" />
+			<input bind:value={$title} type="text" placeholder="Article title" minlength="12" required />
+			<input
+				bind:value={$description}
+				type="text"
+				placeholder="Article description"
+				minlength="12"
+				maxlength="42"
+				required
+			/>
+			<input bind:value={$topic} type="text" placeholder="Article topic" minlength="1" required />
 		</div>
 		<div class="resizing-column">
 			<FileInput {files} {setFiles} />
@@ -207,7 +306,7 @@ Check the status of your pending articles anytime by clicking on your profile pi
 
 	<Editor
 		value={$markdownContent}
-		plugins={[gfm(), gemoji()]}
+		plugins={[gfm(), gemoji(), codeUniversityEntities()]}
 		on:change={handleChange}
 		previewDebounce={10}
 		placeholder="Article content"
@@ -346,5 +445,21 @@ tag select -->
 		.resizing-column {
 			width: 100% !important;
 		}
+	}
+	/* select non-empty invalid inputs*/
+	/* input:not(:placeholder-shown):not(:valid) {
+		outline: 3px solid var(--error);
+	} */
+
+	.editor.editor--highlightInvalidInputs input:invalid {
+		outline: 3px solid var(--error);
+	}
+	/* .editor.editor--highlightInvalidInputs input:not(:valid) {
+		outline: 3px solid var(--error);
+	} */
+	.editor.editor--highlightInvalidInputs
+		:global(.dropzoneFileInput.dropzoneFileInput--empty)
+		:global(.dropzone) {
+		border-color: var(--error);
 	}
 </style>

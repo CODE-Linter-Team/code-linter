@@ -5,6 +5,8 @@
 	import { readable, writable } from 'svelte/store';
 	import { page } from '$app/stores';
 
+	import { PUBLIC_SERVICE_URL } from '$env/static/public';
+
 	/** @type {import('./$types').PageData} */
 	export let data;
 
@@ -41,9 +43,10 @@
 		['articles', $authorsFilter.join(','), $contentTagsFilter.join(','), $statesFilter.join(',')],
 		async function () {
 			const res = await fetch(
-				`http://localhost:5173/api/articles?authors=${$authorsFilter.join(
-					','
-				)}&tags=${$contentTagsFilter.join(',')}&states=${$statesFilter.join(',')}`
+				PUBLIC_SERVICE_URL +
+					`/articles?authors=${$authorsFilter.join(',')}&tags=${$contentTagsFilter.join(
+						','
+					)}&states=${$statesFilter.join(',')}`
 			);
 			const json = await res.json();
 

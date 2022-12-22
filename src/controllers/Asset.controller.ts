@@ -1,10 +1,12 @@
+import { PUBLIC_SERVICE_URL } from "$env/static/public"
+
 import Asset from '../modelss/Asset';
 
 const AssetController = {
 	async refineAsset(assetDoc: any) {
 		const { _id, ownerId, size, data, alt, title } = assetDoc;
 
-		const url = `http://localhost:5173/api/assets/${_id}.jpeg`;
+		const url = PUBLIC_SERVICE_URL + `/api/assets/${_id}.jpeg`;
 
 		return {
 			id: _id,

@@ -5,12 +5,13 @@ import Article from './modelss/Article';
 import User from './modelss/User';
 import Permission from './data/permissions';
 
-const GOOGLE_ID = '34788858697-r8ehr0qfe99md69sl3h2m8tmshgjhamh.apps.googleusercontent.com';
-const GOOGLE_SECRET = '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';
+import { SECRET_SERVICE_AUTH_SECRET, SECRET_GOOGLE_ID, SECRET_GOOGLE_SECRET } from '$env/static/private'
+
+import { PUBLIC_SERVICE_URL } from "$env/static/public"
 
 export const handle = SvelteKitAuth({
-	providers: [Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET })],
-	secret: 'susbaker'
+	providers: [Google({ clientId: SECRET_GOOGLE_ID, clientSecret: SECRET_GOOGLE_SECRET })],
+	secret: SECRET_SERVICE_AUTH_SECRET
 });
 
 async function seedDatabase() {
@@ -60,7 +61,7 @@ async function seedDatabase() {
 		contentTags: ['Technology'],
 		submittedDate: 0,
 		publishedDate: 0,
-		markdownText: `# 2021 Wrap-Up | Malik Piara
+		markdownText: `## 2021 Wrap-Up | Malik Piara
 
 We are very excited to share today’s 2021 wrap-up which is dedicated to Malik Piara, #NextGeneration Product Management student.
 
@@ -91,7 +92,7 @@ I’m proud to have taken steps towards improving myself and letting go of my un
 Ben Bachem, Jonathan Freiberger, Moritz Eich, Hanno Grimm, Teodora Trposka, Johann Hemmann, Dennis Willmann and Lukas Müller kept me sane while I felt alone in Lisbon. And they helped accelerate my learning. That’s one of the things I love about CODE. I’m smiling thinking about how many people are there for me and with whom I can learn anything I want faster than I could ever before.
 `
 	});
-	testArticle.url = "http://localhost:5173/articles/" + testArticle._id
+	testArticle.url = PUBLIC_SERVICE_URL + "/articles/" + testArticle._id
 	await testArticle.save();
 }
 seedDatabase();

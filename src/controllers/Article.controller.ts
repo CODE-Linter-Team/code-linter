@@ -2,6 +2,8 @@ import Article from '../modelss/Article';
 import User from '../modelss/User';
 import UserController from './User.controller';
 
+import { PUBLIC_SERVICE_URL } from "$env/static/public"
+
 interface CreateArticleBody {
 	scope: 'PUBLIC' | 'INTERNAL';
 
@@ -44,6 +46,7 @@ const ArticleController = {
 
 		return await ArticleController.refineArticle(article)
 	},
+
 	async submitArticleForReview(articleBody: CreateArticleBody) {
 		const fullArticleBody = {
 			...articleBody,
@@ -54,7 +57,7 @@ const ArticleController = {
 		};
 		const article = new Article(fullArticleBody);
 
-		article.url = "http://localhost:5173/articles/" + article._id
+		article.url = PUBLIC_SERVICE_URL + "/articles/" + article._id
 
 		await article.save();
 	},

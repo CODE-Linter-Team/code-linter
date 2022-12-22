@@ -2,9 +2,11 @@
 // it so that it gets served as a static asset in production
 // export const prerender = true;
 
+import { PUBLIC_SERVICE_URL } from "$env/static/public"
+
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
-	const res = await fetch('http://localhost:5173/api/articles?states=PUBLISHED');
+	const res = await fetch(PUBLIC_SERVICE_URL + '/api/articles?states=PUBLISHED');
 
 	const json = await res.json();
 
