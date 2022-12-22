@@ -111,10 +111,41 @@
 
 		coverImg.set(rest);
 	}
+	async function uploadEditorImages(files: File[]) {
+		const refinedFiles = await Promise.all(
+			files.map(async (i: File) => {
+				const formData = new FormData();
+
+				const filenameWithoutExtension = /^(.*)\..*$/;
+
+				const imageTitle =
+					i.name.match(filenameWithoutExtension)?.[1] ?? i.name ?? 'Untitled image';
+
+				formData.append('data', i);
+				formData.append('title', imageTitle);
+				formData.append('alt', imageTitle);
+
+				const options = {
+					method: 'POST',
+					body: formData
+				};
+				// const options = {
+				// 	method: 'POST',
+				// 	headers: { 'Content-Type': i.type },
+				// 	body: i
+				// }
+				const res = await fetch('/api/assets', options);
+
+				const file = res.json();
+
+				return file;
+			})
+		);
+		return refinedFiles.map(({ url, title, alt }) => ({ url, title, alt }));
+	}
 </script>
 
 <div class="editor">
-	<FileInput {files} {setFiles} />
 	<div
 		class="booleanRow"
 		on:click={() => isInternal.set(!$isInternal)}
@@ -123,13 +154,21 @@
 		<span>Internal article</span>
 		<Toggle isToggled={$isInternal} />
 	</div>
+	<FileInput {files} {setFiles} />
 	<input bind:value={$title} type="text" placeholder="Article title" />
 	<input bind:value={$description} type="text" placeholder="Article description" />
 	<input bind:value={$topic} type="text" placeholder="Article topic" />
 
 	<!-- <span class="textBox" role="textbox" contenteditable>{$markdownContent}</span> -->
 
-	<Editor value={$markdownContent} {plugins} on:change={handleChange} previewDebounce={10} />
+	<Editor
+		value={$markdownContent}
+		{plugins}
+		on:change={handleChange}
+		previewDebounce={10}
+		placeholder="Article content"
+		uploadImages={uploadEditorImages}
+	/>
 	<!-- <Viewer value={$markdownContent} /> -->
 
 	<button
