@@ -1,5 +1,6 @@
 <script>
 	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import Footer from './Footer.svelte';
 
 	import Header from './Header.svelte';
 	import './styles.css';
@@ -21,15 +22,8 @@
 			<slot />
 		</main>
 
-		<footer>
-			<nav>
-				<a href="#">Imprint</a>
-				<a href="#">Privacy</a>
-				<a href="#">Contact</a>
-			</nav>
-		</footer>
-	</div>
-</QueryClientProvider>
+	<Footer />
+</div>
 
 <style>
 	.app {
@@ -50,52 +44,4 @@
 		padding-top: 8rem;
 	}
 
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 50px 0;
-
-		background: var(--vscode-layer1);
-
-		width: 100%;
-
-		height: 300px;
-
-		margin-top: 8rem;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
-	}
-	nav {
-		display: flex;
-
-		justify-content: space-between;
-
-		margin: auto;
-	}
-	nav a {
-		display: grid;
-		place-content: center;
-
-		height: 100%;
-		padding: 0 3rem;
-
-		color: var(--vscode-text);
-	}
-	@media (max-width: 42rem) {
-		nav {
-			flex-direction: column;
-
-			gap: 3rem;
-		}
-	}
 </style>
