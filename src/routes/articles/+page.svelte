@@ -1,53 +1,29 @@
 <script lang="ts">
-	import ArticleInfoCard from '../ArticleInfoCard.svelte';
-
-	import { browser } from '$app/environment';
-	import { readable, writable } from 'svelte/store';
+	import { useQuery } from '@sveltestack/svelte-query';
 	import { page } from '$app/stores';
-
 	import { PUBLIC_SERVICE_URL } from '$env/static/public';
+
+	import ArticleInfoCard from '../ArticleInfoCard.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
 
 	const articles = data.articles;
 
-	function registerUrlField(defaultValue: string[], key: string) {
-		const initialValue = browser
-			? $page.url.searchParams.get(key)?.split(',') ?? defaultValue
-			: defaultValue;
+	$: authorsFilter = $page.url.searchParams.get('authors')?.split(',') ?? [];
+	$: contentTagsFilter = $page.url.searchParams.get('tags')?.split(',') ?? [];
+	$: statesFilter = $page.url.searchParams.get('states')?.split(',') ?? [];
 
-		const field = writable<string[]>(initialValue);
-
-		// const sus = readable($page.url.searchParams.get(key)?.split(','), (set) => {
-		// 	const update = () => set($page.url.searchParams.get(key)?.split(',') ?? []);
-		// 	// window.addEventListener('hashchange', update);
-		// 	// return () => window.removeEventListener('hashchange', update);
-		// });
-		// sus.subscribe(field.set);
-
-		field.subscribe((value) => {
-			if (browser) {
-				$page.url.searchParams.set(key, value.join(','));
-			}
-		});
-		return field;
-	}
-	export const authorsFilter = registerUrlField([], 'authors');
-	export const contentTagsFilter = registerUrlField([], 'tags');
-	export const statesFilter = registerUrlField([], 'states');
-
-	import { useQuery } from '@sveltestack/svelte-query';
-
-	const queryResult = useQuery(
-		['articles', $authorsFilter.join(','), $contentTagsFilter.join(','), $statesFilter.join(',')],
+	$: queryResult = useQuery(
+		['articles', authorsFilter, contentTagsFilter, statesFilter],
 		async function () {
-			const res = await fetch(
+			const url =
 				PUBLIC_SERVICE_URL +
-					`/articles?authors=${$authorsFilter.join(',')}&tags=${$contentTagsFilter.join(
-						','
-					)}&states=${$statesFilter.join(',')}`
-			);
+				`/api/articles?authors=${authorsFilter.join(',')}&tags=${contentTagsFilter.join(
+					','
+				)}&states=${statesFilter.join(',')}`;
+
+			const res = await fetch(url);
 			const json = await res.json();
 
 			return json;
@@ -67,11 +43,16 @@
 			<ArticleInfoCard {article} showStateChangeButtons={true} />
 		{/each}
 	{:else}
-		Found no articles matching this filter
+		<span>Found no articles matching this filter</span>
 	{/if}
 </div>
 
 <style>
+	span {
+		color: var(--vscode-text);
+
+		font-size: 1rem;
+	}
 	.articleList {
 		display: flex;
 		flex-direction: column;
