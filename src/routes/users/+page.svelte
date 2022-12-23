@@ -63,7 +63,7 @@
 				<span class="property">
 					<Fa
 						icon={faCircleCheck}
-						style="padding-right: 0.7rem; color: var(--success); font-size: 1.4rem"
+						style="padding-right: 0.7rem; color: var(--success); font-size: 22px"
 					/>
 					0 published
 				</span>
@@ -71,7 +71,7 @@
 				<span class="property">
 					<Fa
 						icon={faClock}
-						style="padding-right: 0.7rem; color: var(--neutral); font-size: 1.4rem"
+						style="padding-right: 0.7rem; color: var(--neutral); font-size: 22px"
 					/>
 					0 pending</span
 				>
@@ -79,7 +79,7 @@
 				<span class="property">
 					<Fa
 						icon={faCircleXmark}
-						style="padding-right: 0.7rem; color: var(--error); font-size: 1.4rem"
+						style="padding-right: 0.7rem; color: var(--error); font-size: 22px"
 					/>
 					0 rejected
 				</span>
@@ -150,6 +150,8 @@
 
 		width: 100%;
 		padding: 0.5rem 0rem;
+
+		height: 52px;
 
 		gap: 1rem;
 

@@ -182,6 +182,10 @@ Check the status of your pending articles anytime by clicking on your profile pi
 	export let fieldContainer: any = null;
 
 	async function submitForReview() {
+		const nonSelfhostedImages = /\!\[[\s\S]*\]\((?!http\:\/\/localhost).*\)/g;
+
+		const hasSelfhostedImages = $markdownContent.match(nonSelfhostedImages);
+
 		if ($title.length < 12 || $description.length < 42 || $topic.length < 1 || $coverImg == null) {
 			shouldHighlightInvalidInputs = true;
 
@@ -353,7 +357,10 @@ tag select -->
 		align-items: center;
 
 		width: 100%;
+		height: 40px;
 		padding: 0 1rem;
+
+		margin-bottom: -1.5rem;
 
 		font-weight: bold;
 		gap: 1rem;

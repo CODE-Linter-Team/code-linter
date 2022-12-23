@@ -16,9 +16,9 @@
 		filter: brightness(1.1);
 	}
 	label {
-		--padding: 5px;
-		--height: 26px;
-		--width: 58px;
+		--padding: 4px;
+		--height: 22px;
+		--width: 52px;
 
 		position: relative;
 
