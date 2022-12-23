@@ -162,7 +162,7 @@ body .markdown-body code {
     opacity: 1;
 }
 
-.userEntityLink {
+.codeUniversityEntityLink {
     position: relative;
 }
 
@@ -212,4 +212,14 @@ body .markdown-body code {
 
 a:hover>.userEntityTooltip {
     opacity: 1;
+}
+
+body .markdown-body blockquote {
+
+    padding-left: 1rem;
+    margin-left: 1rem;
+
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 6px solid var(--vscode-text);
+    border-radius: 6px;
 }

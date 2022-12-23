@@ -20,6 +20,13 @@ const userMap = {
     }
 };
 
+const EntityTypes = {
+    "user": {
+        id: "user",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="10px" height="10px" style="margin-right: 2px; fill: var(--primary)"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>`
+    }
+}
+
 export default function codeUniversityEntityBytemdPlugin() {
     return {
         rehype: (processor: any) => {
@@ -28,8 +35,10 @@ export default function codeUniversityEntityBytemdPlugin() {
                 let links: any = [];
                 let linkTexts: any = [];
 
+
+
                 visit(tree, (node) => {
-                    if (node.type === 'text' && node.value === 'user') linkTexts.push(node);
+                    if (node.type === 'text' && Object.keys(EntityTypes).includes(node.value)) linkTexts.push(node);
 
                     if (node.type === 'text' && node.value.endsWith('@')) linesEndingWithSymbols.push(node);
 
@@ -47,37 +56,41 @@ export default function codeUniversityEntityBytemdPlugin() {
                             matchingLink.position.end.column > i.position.end.column
                         );
                     })[0];
-
                     if (matchingLink == null || matchingLinkText == null) return;
+
+                    const entityType = matchingLinkText.value
 
                     line.value = line.value.slice(0, -1);
 
-                    const userEmail = matchingLink.properties.href;
+                    const entityId = matchingLink.properties.href;
 
-                    const user = userMap[userEmail];
-
-                    matchingLink.properties.href = user.url;
-                    matchingLinkText.value = user.name;
-
-                    matchingLink.properties['data-codeLinter-entityId'] = userEmail;
+                    matchingLink.properties["data-codeLinter-entityLink"] = ""
+                    matchingLink.properties["data-codeLinter-entityType"] = entityType
+                    matchingLink.properties['data-codeLinter-entityId'] = entityId;
                 }
             });
         },
-        viewerEffect({ markdownBody }: { markdownBody: HTMLDivElement }) {
-            const codeUniversityUserLinks = markdownBody.querySelectorAll<HTMLLinkElement>(
-                '[data-codeLinter-entityId]'
+        async viewerEffect({ markdownBody }: { markdownBody: HTMLDivElement }) {
+            const codeUniversityEntityLinks = markdownBody.querySelectorAll<HTMLLinkElement>(
+                '[data-codeLinter-entityLink]'
             );
+            for (const entityLink of codeUniversityEntityLinks) {
 
-            for (const userLink of codeUniversityUserLinks) {
-                userLink.classList.add('userEntityLink');
+                entityLink.classList.add('codeUniversityEntityLink');
 
-                const userEmail = userLink.getAttribute('data-codeLinter-entityId');
+                const entityTypeId = entityLink.getAttribute("data-codeLinter-entityType")
+                const entityId = entityLink.getAttribute('data-codeLinter-entityId');
 
-                const user = userMap[userEmail];
+                const entityType = EntityTypes[entityTypeId]
 
-                userLink.insertAdjacentHTML(
-                    'beforeend',
-                    `<div class="userEntityTooltip">
+                if (entityType?.id === EntityTypes.user.id) {
+
+                    const user = userMap[entityId];
+
+                    entityLink.href = user.url
+
+                    entityLink.innerHTML =
+                        `${entityType.icon}${user.name}<div class="userEntityTooltip">
 							<img src="https://prod-code-uploads.s3.eu-central-1.amazonaws.com/Avatar/cksn66uwl47500wlcrpg94tok/2021-8-23/58779762-f89f-4885-96fe-2a0bb1d0a4c3--IMG_1518.png"/>
 							<div style="display: flex; flex-direction: column">
 								<span>${user.name}</span>
@@ -101,9 +114,8 @@ export default function codeUniversityEntityBytemdPlugin() {
 <path d="M13.2 0.600098L0.499975 13.0001L0.0999756 13.4001L13.2 26.3001L17.7 21.9001L8.79997 13.5001L17.7 5.0001L13.2 0.600098ZM23.8 0.600098L19.3 5.0001L28.2 13.5001L19.3 21.9001L23.8 26.3001L36.9 13.4001L36.5 13.0001L23.8 0.600098Z" fill="#989898"/>
 </svg>
 
-</div>
-						</div>`
-                );
+</div></div>`
+                }
             }
         }
     };

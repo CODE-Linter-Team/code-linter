@@ -3,11 +3,11 @@
 
 So you wanna write an article huh?
 Easy as cake, just fill out all the required fields and hit \`Submit for review\`.
-But please, finish reading this text first :)
+But please, finish reading this guide first :)
 
 ### CODE-Linter content guidelines
 
-CODE-Linter presents itself as a respectable platform, so please respect a few rules:
+CODE-Linter presents itself as a reputable platform, so in keeping with that please respect a few rules:
 
 #### Objectivity
 
@@ -19,7 +19,7 @@ If the article should best remain inside the CODE community, toggle the \`Intern
 Even though CODE is primarily a tech university, we accept articles on any topic given relevance to CODE.
 
 You can tell your article is not suitable for CODE-Linter if:
-- its purely focused on tech or current events, consider posting this on a blog instead
+- its purely focused on tech or current events; consider posting this on a blog instead
 
 ### Text format
 CODE-Linter uses \`markdown\` as its content format of choice. If you're not familiar with the syntax, you can find a guide [here](https://www.markdownguide.org/basic-syntax/).
@@ -150,6 +150,7 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 
 			if (!res.ok) throw new Error();
 
+			shouldHighlightInvalidInputs = false;
 			title.set('');
 			description.set('');
 			markdownContent.set(defaultMarkdownContent);
