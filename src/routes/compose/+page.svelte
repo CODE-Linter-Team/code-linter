@@ -36,17 +36,21 @@ If you're and admin, you can just head.
 Otherwise, you'll have to wait until your article either gets published or rejected.
 Check the status of your pending articles anytime by clicking on your profile picture at the top of the page.
 
+For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
+
 
 ![Good luck](https://t4.ftcdn.net/jpg/02/24/11/57/360_F_224115780_2ssvcCoTfQrx68Qsl5NxtVIDFWKtAgq2.jpg "Good luck")
 
 > this is how you do comments
-\\- sun tzu`;
+\\- @[user](linus.bolls@code.berlin)`;
 
 	import { writable } from 'svelte/store';
 	import { toast } from '@zerodevx/svelte-toast';
 	import { Pulse } from 'svelte-loading-spinners';
 
 	import { browser } from '$app/environment';
+
+	import { PUBLIC_SERVICE_URL } from '$env/static/public';
 
 	import ToastTheme from '../../data/toastThemes';
 	import Toggle from '../../components/Toggle.svelte';
@@ -55,87 +59,7 @@ Check the status of your pending articles anytime by clicking on your profile pi
 	import { Editor } from 'bytemd';
 	import gfm from '@bytemd/plugin-gfm';
 	import gemoji from '@bytemd/plugin-gemoji';
-
-	import { visit } from 'unist-util-visit';
-
-	// const find = /\@(\+1|[-\w]+)\@/g;
-
-	const find = /\@\[user\]/;
-
-	const own = {}.hasOwnProperty;
-
-	function idToCodeUniversityEntity(entityId: string) {
-		return 'sus';
-	}
-
-	function remarkCodeUniversityEntities() {
-		return (tree: any) => {
-			console.log('tree call:', tree);
-
-			visit(tree, 'text', (node) => {
-				const value = node.value;
-
-				const slices: string[] = [];
-				find.lastIndex = 0;
-				let match = find.exec(value);
-
-				// console.log('match:', match, node.value);
-				let start = 0;
-
-				// console.log('match:', match);
-				console.log(node);
-
-				while (match) {
-					const entityId = match[1];
-					const position = match.index;
-
-					const entity = idToCodeUniversityEntity(entityId);
-
-					if (entity != null) {
-						if (start !== position) {
-							slices.push(value.slice(start, position));
-						}
-						slices.push(idToCodeUniversityEntity(entityId));
-
-						start = position + match[0].length;
-					} else {
-						find.lastIndex = position + 1;
-					}
-					match = find.exec(value);
-				}
-
-				if (slices.length > 0) {
-					slices.push(value.slice(start));
-					node.value = slices.join('');
-				}
-			});
-		};
-	}
-
-	function codeUniversityEntities() {
-		return {
-			// remark: (processor: any) => {
-			// 	return processor.use(remarkCodeUniversityEntities);
-			// },
-			// viewerEffect({ markdownBody }: { markdownBody: HTMLDivElement }) {
-			// 	const els = markdownBody.querySelectorAll<HTMLParagraphElement>('p');
-			// 	for (const el of els) {
-			// 		console.log(el.innerText, el.children, el.childNodes);
-			// 		if (el.innerText === '@user') {
-			// 			console.log('makung');
-			// 			const link = el.querySelector('a');
-			// 			if (link == null) continue;
-			// 			el.classList.add('entityLink');
-			// 			el.insertAdjacentHTML(
-			// 				'beforeend',
-			// 				`<div class="entityLink__entityCard">mooin ${link.href}</div>`
-			// 			);
-			// 			link.innerHTML = 'Linus Bolls';
-			// 		}
-			// 	}
-			// }
-		};
-	}
+	import codeUniversityEntityBytemdPlugin from '../../data/codeUniversityEntityBytemdPlugin';
 
 	function registerLocalField<T extends unknown>(defaultValue: T, key: string) {
 		const initialValue = browser
@@ -182,11 +106,28 @@ Check the status of your pending articles anytime by clicking on your profile pi
 	export let fieldContainer: any = null;
 
 	async function submitForReview() {
-		const nonSelfhostedImages = /\!\[[\s\S]*\]\((?!http\:\/\/localhost).*\)/g;
+		const regexEscapedHost = PUBLIC_SERVICE_URL.replace(/\//g, '\\/').replace(/\./g, '\\.');
 
-		const hasSelfhostedImages = $markdownContent.match(nonSelfhostedImages);
+		/**
+		 * see: https://regex101.com/r/bQlEM9/1
+		 */
+		const selectExternalMarkdownImages = new RegExp(
+			`\!\\[.*\\]\\((?!${regexEscapedHost})(.*)\\)`,
+			'g'
+		);
+		const externalImages = $markdownContent.match(selectExternalMarkdownImages);
 
-		if ($title.length < 12 || $description.length < 42 || $topic.length < 1 || $coverImg == null) {
+		if (externalImages != null) {
+			toast.push(
+				`Foreign image source '${externalImages[0]}' detected, please upload your images via the ui or Ctrl + v`,
+				{
+					theme: ToastTheme.error
+				}
+			);
+			return;
+		}
+
+		if ($title.length < 12 || $description.length < 12 || $topic.length < 1 || $coverImg == null) {
 			shouldHighlightInvalidInputs = true;
 
 			fieldContainer.scrollIntoView();
@@ -310,7 +251,7 @@ Check the status of your pending articles anytime by clicking on your profile pi
 
 	<Editor
 		value={$markdownContent}
-		plugins={[gfm(), gemoji(), codeUniversityEntities()]}
+		plugins={[gfm(), gemoji(), codeUniversityEntityBytemdPlugin()]}
 		on:change={handleChange}
 		previewDebounce={10}
 		placeholder="Article content"

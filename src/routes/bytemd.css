@@ -161,3 +161,55 @@ body .markdown-body code {
 .entityLink:hover .entityLink__entityCard {
     opacity: 1;
 }
+
+.userEntityLink {
+    position: relative;
+}
+
+.userEntityTooltip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+
+    height: 3rem;
+    padding: 8px;
+    gap: 8px;
+
+    top: 100%;
+    left: 0;
+
+    min-width: 10rem;
+
+    background: var(--vscode-layer3);
+
+    text-decoration: none;
+
+    border-radius: 2px;
+
+    opacity: 0;
+
+    transition-duration: 0.1s;
+
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.userEntityTooltip span {
+    font-size: 12px;
+
+    color: var(--vscode-text);
+}
+
+.userEntityTooltip img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 50%;
+}
+
+a:hover>.userEntityTooltip {
+    opacity: 1;
+}

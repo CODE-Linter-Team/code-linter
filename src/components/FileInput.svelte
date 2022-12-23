@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { faImage, faClose } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa/src/fa.svelte';
-
-	import ToastTheme from '../data/toastThemes';
 	import { toast } from '@zerodevx/svelte-toast';
 	import Dropzone from 'svelte-file-dropzone';
+
+	import ToastTheme from '../data/toastThemes';
 
 	export let maxFiles = 1;
 

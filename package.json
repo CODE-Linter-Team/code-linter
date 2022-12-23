@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"start": "PORT=5173 NEXTAUTH_URL=https://127.0.0.1:5173/api/auth/session AUTH_TRUST_HOST=https://127.0.0.1:5173/api/auth/session node dist",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -42,6 +43,7 @@
 		"@bytemd/plugin-gfm": "^1.18.0",
 		"@fortawesome/free-brands-svg-icons": "^6.2.1",
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
+		"@sveltejs/adapter-node": "^1.0.0",
 		"@sveltestack/svelte-query": "^1.6.0",
 		"bytemd": "^1.18.0",
 		"dayjs": "^1.11.7",
