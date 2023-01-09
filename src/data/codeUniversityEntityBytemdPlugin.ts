@@ -117,6 +117,17 @@ export default function codeUniversityEntityBytemdPlugin() {
 </div></div>`
                 }
             }
-        }
+        },
+        actions: [
+            {
+                title: "amon goose", icon: "", handler: {
+                    type: 'action',
+                    click({ wrapText, editor }: any) {
+
+                        editor.focus()
+                    },
+                },
+            }
+        ]
     };
 }

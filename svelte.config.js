@@ -12,5 +12,4 @@ const config = {
 		adapter: adapter({ out: "dist" })
 	}
 };
-
 export default config;

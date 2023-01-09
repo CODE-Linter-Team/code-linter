@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"start": "PORT=5173 NEXTAUTH_URL=https://127.0.0.1:5173/api/auth/session AUTH_TRUST_HOST=https://127.0.0.1:5173/api/auth/session node dist",
+		"start": "node dist",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -47,6 +47,7 @@
 		"@sveltestack/svelte-query": "^1.6.0",
 		"bytemd": "^1.18.0",
 		"dayjs": "^1.11.7",
+		"dotenv": "^16.0.3",
 		"mongoose": "^6.8.0",
 		"random-seed": "^0.3.0",
 		"svelte-fa": "^3.0.3",

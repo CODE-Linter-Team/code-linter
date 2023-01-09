@@ -125,6 +125,8 @@ body .CodeMirror .CodeMirror-cursor {
 body .markdown-body img {
 
     max-width: 100%;
+
+    border-radius: 6px;
 }
 
 body .markdown-body * {
@@ -207,7 +209,7 @@ body .markdown-body code {
     width: 2rem;
     height: 2rem;
 
-    border-radius: 50%;
+    border-radius: 50% !important;
 }
 
 a:hover>.userEntityTooltip {

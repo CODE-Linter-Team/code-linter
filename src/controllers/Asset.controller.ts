@@ -48,7 +48,7 @@ const AssetController = {
 		};
 		const rawAsset = await Asset.create(assetData);
 
-		const asset = await AssetController.refineAsset(rawAsset);
+		const asset = await AssetController.refineAsset({ ...rawAsset, _id: rawAsset.id });
 
 		return asset;
 	}

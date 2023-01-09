@@ -41,7 +41,8 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 
 ![Good luck](https://t4.ftcdn.net/jpg/02/24/11/57/360_F_224115780_2ssvcCoTfQrx68Qsl5NxtVIDFWKtAgq2.jpg "Good luck")
 
-> this is how you do comments
+> Look at these two, aren't they just adorable?
+> I wanna fucking cuddle them so hard :laughing:
 \\- @[user](linus.bolls@code.berlin)`;
 
 	import { writable } from 'svelte/store';

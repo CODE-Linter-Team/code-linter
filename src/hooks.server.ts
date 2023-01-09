@@ -1,13 +1,20 @@
 import SvelteKitAuth from '@auth/sveltekit';
 import Google from '@auth/core/providers/google';
 import connectToDatabase from './modelss/connectToDatabase';
-import Article from './modelss/Article';
 import User from './modelss/User';
+import Article from './modelss/Article';
+import Asset from './modelss/Asset';
 import Permission from './data/permissions';
+
+import importNotionData from "./data/importNotionData"
 
 import { SECRET_SERVICE_AUTH_SECRET, SECRET_GOOGLE_ID, SECRET_GOOGLE_SECRET } from '$env/static/private'
 
 import { PUBLIC_SERVICE_URL } from "$env/static/public"
+
+import { config } from "dotenv"
+
+config()
 
 export const handle = SvelteKitAuth({
 	providers: [Google({ clientId: SECRET_GOOGLE_ID, clientSecret: SECRET_GOOGLE_SECRET })],
@@ -15,12 +22,16 @@ export const handle = SvelteKitAuth({
 });
 
 async function seedDatabase() {
+
+	await connectToDatabase()
+
 	await User.deleteMany();
 	await Article.deleteMany();
+	await Asset.deleteMany()
+
+	await importNotionData()
 
 	const ALL_PERMISSIONS = Object.keys(Permission);
-
-	await connectToDatabase();
 
 	const linus = new User({
 		name: 'Linus Bolls',
@@ -95,4 +106,4 @@ Ben Bachem, Jonathan Freiberger, Moritz Eich, Hanno Grimm, Teodora Trposka, Joha
 	testArticle.url = PUBLIC_SERVICE_URL + "/articles/" + testArticle._id
 	await testArticle.save();
 }
-seedDatabase();
+// seedDatabase();	

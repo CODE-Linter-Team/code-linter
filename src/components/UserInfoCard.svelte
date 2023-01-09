@@ -130,7 +130,6 @@
 
 		border-radius: 6px;
 		background: var(--vscode-layer2);
-		box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
 	}
 	.signOutButton {
 		background: none;
