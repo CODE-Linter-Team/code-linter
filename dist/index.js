@@ -3,9 +3,9 @@ import { env } from './env.js';
 import http from 'http';
 import * as qs from 'querystring';
 
-function parse$1 (str, loose) {
-	if (str instanceof RegExp) return { keys:false, pattern:str };
-	var c, o, tmp, ext, keys=[], pattern='', arr = str.split('/');
+function parse$1(str, loose) {
+	if (str instanceof RegExp) return { keys: false, pattern: str };
+	var c, o, tmp, ext, keys = [], pattern = '', arr = str.split('/');
 	arr[0] || arr.shift();
 
 	while (tmp = arr.shift()) {
@@ -16,7 +16,7 @@ function parse$1 (str, loose) {
 		} else if (c === ':') {
 			o = tmp.indexOf('?', 1);
 			ext = tmp.indexOf('.', 1);
-			keys.push( tmp.substring(1, !!~o ? o : !!~ext ? ext : tmp.length) );
+			keys.push(tmp.substring(1, !!~o ? o : !!~ext ? ext : tmp.length));
 			pattern += !!~o && !~ext ? '(?:/([^/]+?))?' : '/([^/]+?)';
 			if (!!~ext) pattern += (!!~o ? '?' : '') + '\\' + tmp.substring(ext);
 		} else {
@@ -49,7 +49,7 @@ class Trouter {
 	use(route, ...fns) {
 		let handlers = [].concat.apply([], fns);
 		let { keys, pattern } = parse$1(route, true);
-		this.routes.push({ keys, pattern, method:'', handlers });
+		this.routes.push({ keys, pattern, method: '', handlers });
 		return this;
 	}
 
@@ -61,24 +61,24 @@ class Trouter {
 	}
 
 	find(method, url) {
-		let isHEAD=(method === 'HEAD');
-		let i=0, j=0, k, tmp, arr=this.routes;
-		let matches=[], params={}, handlers=[];
+		let isHEAD = (method === 'HEAD');
+		let i = 0, j = 0, k, tmp, arr = this.routes;
+		let matches = [], params = {}, handlers = [];
 		for (; i < arr.length; i++) {
 			tmp = arr[i];
 			if (tmp.method.length === 0 || tmp.method === method || isHEAD && tmp.method === 'GET') {
 				if (tmp.keys === false) {
 					matches = tmp.pattern.exec(url);
 					if (matches === null) continue;
-					if (matches.groups !== void 0) for (k in matches.groups) params[k]=matches.groups[k];
-					tmp.handlers.length > 1 ? (handlers=handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
+					if (matches.groups !== void 0) for (k in matches.groups) params[k] = matches.groups[k];
+					tmp.handlers.length > 1 ? (handlers = handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
 				} else if (tmp.keys.length > 0) {
 					matches = tmp.pattern.exec(url);
 					if (matches === null) continue;
-					for (j=0; j < tmp.keys.length;) params[tmp.keys[j]]=matches[++j];
-					tmp.handlers.length > 1 ? (handlers=handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
+					for (j = 0; j < tmp.keys.length;) params[tmp.keys[j]] = matches[++j];
+					tmp.handlers.length > 1 ? (handlers = handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
 				} else if (tmp.pattern.test(url)) {
-					tmp.handlers.length > 1 ? (handlers=handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
+					tmp.handlers.length > 1 ? (handlers = handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
 				}
 			} // else not a match
 		}
@@ -109,7 +109,7 @@ function parse(req) {
 	let prev = req._parsedUrl;
 	if (prev && prev.raw === raw) return prev;
 
-	let pathname=raw, search='', query;
+	let pathname = raw, search = '', query;
 
 	if (raw.length > 1) {
 		let idx = raw.indexOf('?', 1);
@@ -136,7 +136,7 @@ function onError(err, req, res) {
 const mount = fn => fn instanceof Polka ? fn.attach : fn;
 
 class Polka extends Trouter {
-	constructor(opts={}) {
+	constructor(opts = {}) {
 		super();
 		this.parse = parse;
 		this.server = opts.server;
@@ -187,7 +187,7 @@ class Polka extends Trouter {
 
 	handler(req, res, next) {
 		let info = this.parse(req), path = info.pathname;
-		let obj = this.find(req.method, req.path=path);
+		let obj = this.find(req.method, req.path = path);
 
 		req.url = path + info.search;
 		req.originalUrl = req.originalUrl || req.url;
@@ -202,13 +202,13 @@ class Polka extends Trouter {
 			}
 		}
 
-		let i=0, arr=obj.handlers.concat(this.onNoMatch), len=arr.length;
+		let i = 0, arr = obj.handlers.concat(this.onNoMatch), len = arr.length;
 		let loop = async () => res.finished || (i < len) && arr[i++](req, res, next);
 		(next = next || (err => err ? this.onError(err, req, res, next) : loop().catch(next)))(); // init
 	}
 }
 
-function polka (opts) {
+function polka(opts) {
 	return new Polka(opts);
 }
 
