@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  node:
+    restart: always
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env
+    build:
+      context: .
+      target: development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+    networks:
+      - my-network
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-store:/data/db
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+volumes:
+  mongo-store:

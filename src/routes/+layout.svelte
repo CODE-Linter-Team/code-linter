@@ -11,12 +11,18 @@
 	import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
 
 	const queryClient = new QueryClient();
+
+	const isDarkmode =
+		// @ts-ignore
+		process.browser &&
+		window.matchMedia &&
+		window.matchMedia('(prefers-color-scheme: dark)').matches;
 </script>
 
 <QueryClientProvider client={queryClient}>
 	<SvelteToast />
 
-	<div class="app">
+	<div class={'app ' + (isDarkmode ? 'darkmode' : 'lightmode')}>
 		<Header />
 
 		<main>
@@ -28,6 +34,14 @@
 </QueryClientProvider>
 
 <style>
+	.app.darkmode {
+	}
+	.app.lightmode {
+		background: white;
+	}
+	.app.darkmode {
+		background: var(--vscode-bg);
+	}
 	.app {
 		display: flex;
 		flex-direction: column;

@@ -16,6 +16,18 @@
 	* {
 		box-sizing: border-box;
 	}
+	:global(.darkmode) .currentEventCard {
+		background: var(--vscode-card-bg);
+		color: white;
+		border-radius: 6px;
+	}
+	:global(.lightmode) .currentEventCard {
+		border-radius: 0;
+		color: #444;
+		background: white;
+
+		border: 1px solid #ccc;
+	}
 	.currentEventCard {
 		--padding: 2rem;
 
@@ -26,10 +38,6 @@
 		min-height: 3rem;
 		padding: var(--padding);
 		gap: var(--padding);
-
-		background: var(--vscode-card-bg);
-		color: white;
-		border-radius: 6px;
 
 		transition: filter 0.2s;
 		cursor: pointer;
