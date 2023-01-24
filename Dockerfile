@@ -27,4 +27,4 @@ COPY --chown=node:node --from=development /app/package-lock.json /app
 RUN npm ci --only=production --ignore-scripts
 
 USER node
-CMD [ "dumb-init", "node", "dist/index.js" ]
+CMD [ "dumb-init", "node", "dist/index.js", "--bind", "0.0.0.0" ]

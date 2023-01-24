@@ -10,13 +10,15 @@
 
 	import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
 
+	import { browser } from '$app/environment';
+
 	const queryClient = new QueryClient();
 
 	const isDarkmode =
 		// @ts-ignore
-		process.browser &&
-		window.matchMedia &&
-		window.matchMedia('(prefers-color-scheme: dark)').matches;
+		browser && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+	// const isDarkmode = true;
 </script>
 
 <QueryClientProvider client={queryClient}>
