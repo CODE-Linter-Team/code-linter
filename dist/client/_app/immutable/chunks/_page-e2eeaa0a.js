@@ -1,1 +1,0 @@
-import{P as a}from"./public-7ea8bfe8.js";async function r({params:t}){const e=await(await fetch(a+`/api/articles/${t.articleId}`)).json(),{article:o}=e;return{article:o}}const c=Object.freeze(Object.defineProperty({__proto__:null,load:r},Symbol.toStringTag,{value:"Module"}));export{c as _,r as l};
