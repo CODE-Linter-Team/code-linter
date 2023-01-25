@@ -18,37 +18,49 @@ async function readableStreamToBuffer(stream: any): Promise<Buffer> {
 export async function POST({ locals, request }: any) {
 	await connectToDatabase();
 
-	const { user } = (await locals.getSession()) ?? {};
+	try {
 
-	const isLoggedIn = user != null;
+		const { user } = (await locals.getSession()) ?? {};
 
-	if (!isLoggedIn)
-		return new Response('{}', { headers: { 'Content-Type': 'application/json' }, status: 401 });
+		const isLoggedIn = user != null;
 
-	const hasPermission = await UserController.hasPermissions(user.email, [
-		Permission.SUBMIT_ARTICLES_FOR_REVIEW.id
-	]);
+		if (!isLoggedIn)
+			return new Response('{}', { headers: { 'Content-Type': 'application/json' }, status: 401 });
 
-	if (!hasPermission) throw error(403, "missing permission: 'SUBMIT_ARTICLES_FOR_REVIEW'");
+		const hasPermission = await UserController.hasPermissions(user.email, [
+			Permission.SUBMIT_ARTICLES_FOR_REVIEW.id
+		]);
 
-	const formData = await request.formData();
+		if (!hasPermission) throw error(403, "missing permission: 'SUBMIT_ARTICLES_FOR_REVIEW'");
 
-	const blobData = formData.get('data');
+		const formData = await request.formData();
 
-	const arrayBufferData = await blobData.arrayBuffer();
+		const blobData = formData.get('data');
 
-	const data = Buffer.from(arrayBufferData);
+		const arrayBufferData = await blobData.arrayBuffer();
 
-	const title = formData.get('title');
+		const data = Buffer.from(arrayBufferData);
 
-	const alt = formData.get('alt');
+		const title = formData.get('title');
 
-	const ownerId = user.email;
+		const alt = formData.get('alt');
 
-	const asset = await AssetController.create({ data, title, alt }, ownerId);
+		const ownerId = user.email;
 
-	return new Response(JSON.stringify(asset), {
-		headers: { 'Content-Type': 'application/json' },
-		status: 201
-	});
+		const asset = await AssetController.create({ data, title, alt }, ownerId);
+
+		return new Response(JSON.stringify(asset), {
+			headers: { 'Content-Type': 'application/json' },
+			status: 201
+		});
+	} catch (err) {
+
+		console.error(`uncaught error inside POST /api/assets:`, err)
+
+		return new Response(JSON.stringify({ ok: 0, message: "failed to upload image" }), {
+			headers: { 'Content-Type': 'application/json' },
+			status: 500
+		});
+
+	}
 }
