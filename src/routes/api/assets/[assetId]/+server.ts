@@ -22,7 +22,5 @@ export async function GET({ locals, request, params }: any) {
 	}
 	const asset = await AssetController.get(fileExtensionMatch[1]);
 
-	fs.writeFileSync('/users/linusbolls/amogus.jpeg', asset.data);
-
 	return new Response(asset.data, { headers: { 'Content-Type': 'image/jpeg' }, status: 200 });
 }
