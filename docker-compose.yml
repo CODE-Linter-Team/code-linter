@@ -11,25 +11,15 @@ services:
       context: .
       target: development
     ports:
-      - 3000:5050
-    volumes:
-      - ./:/app
+      - 127.0.0.1:3000:3000
     networks:
       - my-network
-    depends_on:
-      - mongo
   mongo:
     image: mongo
-    ports:
-      - 27017:27017
+    restart: always
     volumes:
-      - mongo-store:/data/db
+      - ../mongosackdaten/:/data/db
     networks:
       - my-network
-
 networks:
   my-network:
-    driver: bridge
-volumes:
-  mongo-store:
-  ./:/app/node_modules:
