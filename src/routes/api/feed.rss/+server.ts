@@ -15,7 +15,7 @@ export async function GET({ locals, url, ...rest }: any) {
         includeInternal: isLoggedIn,
         contentTags: [],
         authors: [],
-        states: [],
+        states: ['PUBLISHED'],
     });
     const feedItems = articles.map<FeedItem>(i => {
 

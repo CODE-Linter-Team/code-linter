@@ -13,7 +13,6 @@ export async function GET({ locals }: any) {
 		email: string;
 		image: string;
 	}
-
 	const { user } = (await locals.getSession()) ?? {};
 
 	if (user == null) {

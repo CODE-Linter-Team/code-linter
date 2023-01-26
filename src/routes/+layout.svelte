@@ -2,6 +2,8 @@
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import Footer from './Footer.svelte';
 
+	import { page } from '$app/stores';
+
 	import Header from './Header.svelte';
 	import './styles.css';
 	import './bytemd.css';
@@ -14,11 +16,11 @@
 
 	const queryClient = new QueryClient();
 
-	const isDarkmode =
-		// @ts-ignore
-		browser && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+	const isDarkmode = $page.data?.theme === 'dark';
 
-	// const isDarkmode = true;
+	// const isDarkmode =
+	// 	// @ts-ignore
+	// 	browser && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 </script>
 
 <svelte:head>
