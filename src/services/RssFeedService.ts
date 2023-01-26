@@ -38,8 +38,9 @@ const RssFeedService = {
     <title>${feed.title}</title>
     <description>${feed.description}</description>
     <link>${feed.baseUrl}</link>
-  </channel>
+    <language>en</language>
   ${feed.items.map(RssFeedService.getRssItem).join("")}
+  </channel>
 </rss>`
 
     const mimeType = "application/rss+xml"
@@ -52,3 +53,6 @@ const RssFeedService = {
 }
 export default RssFeedService
 
+  // <description> & lt;img src = "https://imgs.xkcd.com/comics/runtime.png" title = "At least there's a general
+  //   understanding all around that Doctor Who is its own thing." alt="At least there's a general
+  //   understanding all around that Doctor Who is its own thing." /&gt;</description>

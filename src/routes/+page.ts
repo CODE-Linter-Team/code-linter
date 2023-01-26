@@ -3,9 +3,10 @@
 // export const prerender = true;
 
 import { PUBLIC_SERVICE_URL } from "$env/static/public"
+import type { PageLoad } from "./$types";
 
-/** @type {import('./$types').PageLoad} */
-export async function load({ params }) {
+export const load: PageLoad = async () => {
+
 	const res = await fetch(PUBLIC_SERVICE_URL + '/api/articles?states=PUBLISHED');
 
 	const json = await res.json();
