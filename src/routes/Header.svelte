@@ -11,8 +11,11 @@
 	import me, { watch } from '../stores/me.store';
 
 	import { onMount } from 'svelte';
+	import Permission from '../data/permissions';
 
 	watch();
+
+	console.info('ich in Header.svelte:', $me);
 
 	const isLoggedIn = Object.keys($page?.data?.session || {}).length;
 
@@ -33,6 +36,8 @@
 		}
 		isAccountPopupOpen = true;
 	}
+
+	$: hasArticleWritePermisison = $me.permissions.includes(Permission.SUBMIT_ARTICLES_FOR_REVIEW.id);
 
 	const userProfilePicture = $page?.data?.session?.user?.image;
 
@@ -111,9 +116,11 @@
 			<a href="/articles?tags=Academic" class="lowerNavItem">Academic</a>
 			<a href="/articles?tags=Opinion" class="lowerNavItem">Opinion</a>
 
-			<a href="/compose" class="composeButton">
-				<Fa icon={faPen} />
-			</a>
+			{#if hasArticleWritePermisison}
+				<a href="/compose" class="composeButton">
+					<Fa icon={faPen} />
+				</a>
+			{/if}
 		</nav>
 	</div>
 	<!-- <div class="corner">

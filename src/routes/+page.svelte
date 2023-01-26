@@ -19,6 +19,8 @@
 	import Counter from './Counter.svelte';
 
 	import randomSeed from 'random-seed';
+	import me from '../stores/me.store';
+	import Permission from '../data/permissions';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -47,6 +49,9 @@
 		commentGreen: '#699855'
 	};
 	const articles = data.articles;
+
+	$: hasContentAdminPermission = $me.permissions.includes(Permission.PUBLISH_ARTICLES.id);
+	$: hasUserAdminPermission = $me.permissions.includes(Permission.HANDLE_USER_PERMISSIONS.id);
 
 	// @ts-ignore
 	// const pattern = articles.map((i, idx) => {
@@ -85,16 +90,20 @@
 
 <section>
 	<div class="adminFeatureContainer">
-		<CurrentEventCard url="/articles" title="Manage content" category="Admin feature">
-			<div slot="head" class="svgButton">
-				<Fa icon={faNewspaper} />
-			</div>
-		</CurrentEventCard>
-		<CurrentEventCard url="/users" title="Manage users" category="Admin feature">
-			<div slot="head" class="svgButton">
-				<Fa icon={faUsers} />
-			</div>
-		</CurrentEventCard>
+		{#if hasContentAdminPermission}
+			<CurrentEventCard url="/articles" title="Manage content" category="Admin feature">
+				<div slot="head" class="svgButton">
+					<Fa icon={faNewspaper} />
+				</div>
+			</CurrentEventCard>
+		{/if}
+		{#if hasUserAdminPermission}
+			<CurrentEventCard url="/users" title="Manage users" category="Admin feature">
+				<div slot="head" class="svgButton">
+					<Fa icon={faUsers} />
+				</div>
+			</CurrentEventCard>
+		{/if}
 	</div>
 
 	<div style="margin-bottom: 8rem">
@@ -122,8 +131,8 @@
 					fill="white"
 				/>
 				<div id="divScriptsUsed" style="display: none" />
-			</svg></CurrentEventCard
-		>
+			</svg>
+		</CurrentEventCard>
 	</div>
 
 	<div class="codeBlock">

@@ -20,16 +20,22 @@ interface SignedInMe {
 interface SignedOutMe {
 	isSignedIn: false;
 	isLoading: false;
+
+	permissions: string[]
 }
 interface LoadingMe {
 	isSignedIn: true;
 	isLoading: true;
+
+	permissions: string[]
 }
 type AdditionalFetchedInfo = SignedOutMe | SignedInMe | LoadingMe;
 
 type Me = Session['user'] & AdditionalFetchedInfo;
 
-const me = writable<Me>({ isSignedIn: true, isLoading: true });
+const DEFAULT_PERMISSIONS: string[] = []
+
+const me = writable<Me>({ isSignedIn: true, isLoading: true, permissions: DEFAULT_PERMISSIONS });
 
 export function watch() {
 	page.subscribe(async (data) => {
@@ -37,14 +43,15 @@ export function watch() {
 
 		if (!isSignedIn) {
 			me.set({
-				isSignedIn,
-				isLoading: false
+				isSignedIn: false,
+				isLoading: false,
+				permissions: DEFAULT_PERMISSIONS,
 			});
 			return;
 		}
 		const res = await fetch(PUBLIC_SERVICE_URL + '/api/me');
 
-		const meData: {
+		interface MeData {
 			permissions: string[];
 
 			articleInfo: {
@@ -52,12 +59,17 @@ export function watch() {
 				pendingCount: number;
 				rejectedCount: number;
 			};
-		} = await res.json();
+		}
+
+		const meData: MeData = await res.json();
+
+		console.log("meData.", meData)
 
 		me.set({
-			isSignedIn,
+			isSignedIn: true,
 			isLoading: false,
-			...meData
+			...meData,
+			permissions: meData.permissions ?? []
 		});
 	});
 }

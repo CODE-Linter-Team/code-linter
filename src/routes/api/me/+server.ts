@@ -49,11 +49,13 @@ export async function GET({ locals }: any) {
 	// @ts-ignore
 	const { permissions, name, email, image } = userDoc;
 
+	console.log("fetched permissions", permissions)
+
 	const articleInfo = await UserController.getArticleInfo(email!);
 
 	const me = { permissions, name, email, image, articleInfo };
 
-	return new Response(JSON.stringify({ isSignedIn: true, wasJustCreated: false, me }), {
+	return new Response(JSON.stringify({ isSignedIn: true, wasJustCreated: false, me, permissions }), {
 		headers: { 'Content-Type': 'application/json' }
 	});
 }
