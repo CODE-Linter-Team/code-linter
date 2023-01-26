@@ -21,6 +21,20 @@
 	// const isDarkmode = true;
 </script>
 
+<svelte:head>
+	<title>CODE Review</title>
+	<meta
+		name="description"
+		content="Stay informed about the community of CODE University of Applied Sciences"
+	/>
+	<link
+		rel="alternate"
+		type="application/rss+xml"
+		title="RSS Feed for CODE Review"
+		href="/api/feed.rss"
+	/>
+</svelte:head>
+
 <QueryClientProvider client={queryClient}>
 	<SvelteToast />
 

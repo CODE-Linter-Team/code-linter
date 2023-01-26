@@ -89,9 +89,11 @@ export default function codeUniversityEntityBytemdPlugin() {
 
                     if (entityType?.id === EntityTypes.user.id) {
 
-                        const user = userMap[entityId];
+                        entityLink.innerHTML = `${entityType.icon}${entityId}`
 
-                        entityLink.href = user.url
+                        // const user = userMap[entityId];
+
+                        // entityLink.href = user.url
 
                         // TODO: fetch data about user
                         //     entityLink.innerHTML =

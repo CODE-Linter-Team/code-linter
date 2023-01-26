@@ -52,9 +52,3 @@ const RssFeedService = {
 }
 export default RssFeedService
 
-// <link
-//   rel="alternate"
-//   type="application/rss+xml"
-//   title="RSS Feed for CODE Review"
-//   href="/api/feed.rss"
-// />
