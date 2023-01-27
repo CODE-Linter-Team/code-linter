@@ -2,13 +2,22 @@ import { PUBLIC_SERVICE_URL } from "$env/static/public"
 
 import Asset from '../modelss/Asset';
 
+export interface FileUpload {
+	id: string
+	ownerId: string,
+	size: number,
+	data: File,
+	alt: string,
+	title: string,
+	url: string,
+}
 const AssetController = {
-	async refineAsset(assetDoc: any) {
+	async refineAsset(assetDoc: any): Promise<FileUpload> {
 		const { _id, ownerId, size, data, alt, title } = assetDoc;
 
 		const url = PUBLIC_SERVICE_URL + `/api/assets/${_id}.jpeg`;
 
-		return {
+		const fileUpload: FileUpload = {
 			id: _id,
 			ownerId,
 			size,
@@ -17,6 +26,7 @@ const AssetController = {
 			title,
 			url
 		};
+		return fileUpload
 	},
 	async get(assetId: string) {
 		const rawAsset = await Asset.findOne({ _id: assetId });

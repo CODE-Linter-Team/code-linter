@@ -14,7 +14,6 @@ export const load: LayoutServerLoad = async (event) => {
 
 	return {
 		theme,
-		theme,
 		session: await event.locals.getSession()
 	};
 };

@@ -57,10 +57,11 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 	import Toggle from '../../components/Toggle.svelte';
 	import FileInput from '../../components/FileInput.svelte';
 
-	import { Editor } from 'bytemd';
+	import { Editor, type EditorProps } from 'bytemd';
 	import gfm from '@bytemd/plugin-gfm';
 	import gemoji from '@bytemd/plugin-gemoji';
 	import codeUniversityEntityBytemdPlugin from '../../data/codeUniversityEntityBytemdPlugin';
+	import type { FileUpload } from 'src/controllers/Asset.controller';
 
 	function registerLocalField<T extends unknown>(defaultValue: T, key: string) {
 		const initialValue = browser
@@ -186,9 +187,18 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 
 		coverImg.set(rest);
 	}
-	async function uploadEditorImages(files: File[]) {
-		const refinedFiles = await Promise.all(
-			files.map(async (i: File) => {
+	/**
+	 * passed to our bytemd markdown editor component editor to handle a click
+	 * on the image icon in the toolbar at the top.
+	 *
+	 * on pressing this button, the user will see a native file upload dialogue.
+	 * the files selected here get passed to the function below.
+	 * the result of the function gets inserted into the markdown draft by the editor component.
+	 *
+	 */
+	const uploadEditorImages: EditorProps['uploadImages'] = async (files: File[]) => {
+		const refinedFiles = await Promise.all<FileUpload>(
+			files.map(async (i) => {
 				const formData = new FormData();
 
 				const filenameWithoutExtension = /^(.*)\..*$/;
@@ -204,11 +214,6 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 					method: 'POST',
 					body: formData
 				};
-				// const options = {
-				// 	method: 'POST',
-				// 	headers: { 'Content-Type': i.type },
-				// 	body: i
-				// }
 				const res = await fetch('/api/assets', options);
 
 				const file = res.json();
@@ -216,8 +221,11 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 				return file;
 			})
 		);
-		return refinedFiles.map(({ url, title, alt }) => ({ url, title, alt }));
-	}
+		const relevantFileInfo = refinedFiles.map(({ url, title, alt }) => ({ url, title, alt }));
+
+		return relevantFileInfo;
+	};
+
 	export let shouldHighlightInvalidInputs = false;
 </script>
 

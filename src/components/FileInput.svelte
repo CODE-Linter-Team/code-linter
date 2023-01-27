@@ -49,7 +49,6 @@
 				return file;
 			})
 		);
-
 		setFiles([...files, ...refinedAcceptedFiles]);
 
 		for (const fileRejection of fileRejections) {

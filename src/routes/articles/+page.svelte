@@ -17,11 +17,11 @@
 	$: queryResult = useQuery(
 		['articles', authorsFilter, contentTagsFilter, statesFilter],
 		async function () {
-			const url =
-				PUBLIC_SERVICE_URL +
-				`/api/articles?authors=${authorsFilter.join(',')}&tags=${contentTagsFilter.join(
-					','
-				)}&states=${statesFilter.join(',')}`;
+			const url = new URL('/api/articles', PUBLIC_SERVICE_URL);
+
+			url.searchParams.set('authors', authorsFilter.join(','));
+			url.searchParams.set('tags', contentTagsFilter.join(','));
+			url.searchParams.set('states', statesFilter.join(','));
 
 			const res = await fetch(url);
 			const json = await res.json();
