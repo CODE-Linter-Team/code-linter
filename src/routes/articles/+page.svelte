@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_SERVICE_URL } from '$env/static/public';
 
-	import ArticleInfoCard from '../ArticleInfoCard.svelte';
+	import ArticleInfoCard from '../../components/ArticleInfoCard.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;

@@ -9,7 +9,7 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter({ out: "dist" })
+		adapter: adapter({ out: 'dist' })
 	}
 };
 export default config;

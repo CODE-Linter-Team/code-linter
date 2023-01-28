@@ -24,6 +24,7 @@
 	export let style: string;
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="userInfoCard" on:click={(e) => e.stopImmediatePropagation()} {style}>
 	<div class="row">
 		<div class="column" style="height: 5rem">

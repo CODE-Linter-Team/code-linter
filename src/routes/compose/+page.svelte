@@ -230,6 +230,7 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 </script>
 
 <div class={'editor' + (shouldHighlightInvalidInputs ? ' editor--highlightInvalidInputs' : '')}>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div
 		class="booleanRow"
 		on:click={() => isInternal.set(!$isInternal)}

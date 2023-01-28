@@ -1,10 +1,10 @@
 <script>
 	import { SvelteToast } from '@zerodevx/svelte-toast';
-	import Footer from './Footer.svelte';
+	import Footer from '../components/Footer.svelte';
 
 	import { page } from '$app/stores';
 
-	import Header from './Header.svelte';
+	import Header from '../components/Header.svelte';
 	import './styles.css';
 	import './bytemd.css';
 

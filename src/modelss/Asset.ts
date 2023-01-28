@@ -13,8 +13,16 @@ const assetSchema = new mongoose.Schema({
 	ownerId: String,
 	title: String,
 	alt: String,
-	data: Buffer
-});
+	data: Buffer,
+	usage: {
+		type: Object,
+		default: {
+			isArticeImage: { type: Boolean, default: false },
+			isProfilePicture: { type: Boolean, default: false },
+			isLogo: { type: Boolean, default: false }
+		}
+	}
+}, {timestamps: true});
 const Asset = mongoose.model('Asset', assetSchema);
 
 export default Asset;

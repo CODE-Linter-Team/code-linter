@@ -3,7 +3,7 @@ import { writable } from 'svelte/store';
 import { page } from '$app/stores';
 import type { Session } from '@auth/core';
 
-import { PUBLIC_SERVICE_URL } from "$env/static/public"
+import { PUBLIC_SERVICE_URL } from '$env/static/public';
 
 interface SignedInMe {
 	isSignedIn: true;
@@ -21,19 +21,19 @@ interface SignedOutMe {
 	isSignedIn: false;
 	isLoading: false;
 
-	permissions: string[]
+	permissions: string[];
 }
 interface LoadingMe {
 	isSignedIn: true;
 	isLoading: true;
 
-	permissions: string[]
+	permissions: string[];
 }
 type AdditionalFetchedInfo = SignedOutMe | SignedInMe | LoadingMe;
 
 type Me = Session['user'] & AdditionalFetchedInfo;
 
-const DEFAULT_PERMISSIONS: string[] = []
+const DEFAULT_PERMISSIONS: string[] = [];
 
 const me = writable<Me>({ isSignedIn: true, isLoading: true, permissions: DEFAULT_PERMISSIONS });
 
@@ -45,7 +45,7 @@ export function watch() {
 			me.set({
 				isSignedIn: false,
 				isLoading: false,
-				permissions: DEFAULT_PERMISSIONS,
+				permissions: DEFAULT_PERMISSIONS
 			});
 			return;
 		}
@@ -63,7 +63,7 @@ export function watch() {
 
 		const meData: MeData = await res.json();
 
-		console.log("meData.", meData)
+		console.log('meData.', meData);
 
 		me.set({
 			isSignedIn: true,

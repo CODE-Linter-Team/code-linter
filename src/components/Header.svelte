@@ -6,7 +6,7 @@
 	import { faPen, faSignIn } from '@fortawesome/free-solid-svg-icons';
 
 	import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-	import UserInfoCard from '../components/UserInfoCard.svelte';
+	import UserInfoCard from './UserInfoCard.svelte';
 
 	import me, { watch } from '../stores/me.store';
 

@@ -2,7 +2,7 @@ import Article from '../modelss/Article';
 import User from '../modelss/User';
 import UserController from './User.controller';
 
-import { PUBLIC_SERVICE_URL } from "$env/static/public"
+import { PUBLIC_SERVICE_URL } from '$env/static/public';
 
 interface CreateArticleBody {
 	scope: 'PUBLIC' | 'INTERNAL';
@@ -38,13 +38,14 @@ const ArticleController = {
 		return articles;
 	},
 	async read(_id: string, includeInternal: boolean, fingerPrint: string) {
-
 		// TODO: handle read
 		// await Article.updateOne({$where: { id: _id }}, { $inc: viewCount })
 
-		const article = await Article.findOne(includeInternal ? { _id, state: "PUBLISHED" } : { _id, state: "PUBLISHED", scope: 'PUBLIC' })
+		const article = await Article.findOne(
+			includeInternal ? { _id, state: 'PUBLISHED' } : { _id, state: 'PUBLISHED', scope: 'PUBLIC' }
+		);
 
-		return await ArticleController.refineArticle(article)
+		return await ArticleController.refineArticle(article);
 	},
 
 	async submitArticleForReview(articleBody: CreateArticleBody) {
@@ -57,7 +58,7 @@ const ArticleController = {
 		};
 		const article = new Article(fullArticleBody);
 
-		article.url = PUBLIC_SERVICE_URL + "/articles/" + article._id
+		article.url = PUBLIC_SERVICE_URL + '/articles/' + article._id;
 
 		await article.save();
 	},
@@ -80,8 +81,7 @@ const ArticleController = {
 		);
 	},
 	async refineArticle(rawArticle: any) {
-
-		if (rawArticle == null) return null
+		if (rawArticle == null) return null;
 
 		const {
 			_id,

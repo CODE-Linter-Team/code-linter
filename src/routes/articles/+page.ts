@@ -1,4 +1,4 @@
-import { PUBLIC_SERVICE_URL } from "$env/static/public"
+import { PUBLIC_SERVICE_URL } from '$env/static/public';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {

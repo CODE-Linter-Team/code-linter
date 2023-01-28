@@ -6,222 +6,219 @@
 */
 
 .articleCaption {
-
-    color: white;
-    font-weight: bold;
-    text-decoration: underline;
-    text-align: left;
+	color: white;
+	font-weight: bold;
+	text-decoration: underline;
+	text-align: left;
 }
 
 body .bytemd {
-    background: var(--vscode-layer1);
+	background: var(--vscode-layer1);
 
-    color: var(--vscode-text);
-    border: none;
-    border-radius: 6px;
+	color: var(--vscode-text);
+	border: none;
+	border-radius: 6px;
 
-    overflow: hidden;
+	overflow: hidden;
 
-    height: 40rem;
+	height: 40rem;
 }
 
 body .bytemd-toolbar {
-    background: var(--vscode-layer1);
-    border-bottom: 1px solid var(--vscode-layer3) !important;
+	background: var(--vscode-layer1);
+	border-bottom: 1px solid var(--vscode-layer3) !important;
 }
 
 body .bytemd-preview {
-    border-left: 1px solid var(--vscode-layer3) !important;
+	border-left: 1px solid var(--vscode-layer3) !important;
 }
 
 body .CodeMirror {
-    background: var(--vscode-layer1);
-    color: var(--vscode-text);
+	background: var(--vscode-layer1);
+	color: var(--vscode-text);
 }
 
-body .markdown-body {}
+body .markdown-body {
+}
 
 body .bytemd-status {
-    border-top: 1px solid var(--vscode-layer3) !important;
+	border-top: 1px solid var(--vscode-layer3) !important;
 }
 
 body .CodeMirror .cm-header {
-    color: #569cd6;
+	color: #569cd6;
 }
 
 body .CodeMirror .cm-link {
-    color: #ce9178;
-    text-decoration: none;
+	color: #ce9178;
+	text-decoration: none;
 }
 
 body .CodeMirror .cm-url {
-    color: white;
-    text-decoration: underline;
+	color: white;
+	text-decoration: underline;
 }
 
 body .markdown-body h1 {
-    color: white;
+	color: white;
 }
 
 body .markdown-body h2 {
-    color: white;
+	color: white;
 
-    font-size: 1.6rem;
-    font-weight: bold;
+	font-size: 1.6rem;
+	font-weight: bold;
 }
 
 body .markdown-body h3 {
-    color: white;
+	color: white;
 }
 
 body .markdown-body h4 {
-    color: white;
+	color: white;
 }
 
 body .markdown-body h5 {
-    color: white;
+	color: white;
 }
 
 body .markdown-body h6 {
-    color: white;
+	color: white;
 }
 
 body .markdown-body a {
-    color: var(--primary);
+	color: var(--primary);
 }
 
 body .cm-variable-2 {
-    color: #569cd6 !important;
+	color: #569cd6 !important;
 }
 
 body .bytemd-status input[type='checkbox'] {
-    accent-color: var(--primary);
+	accent-color: var(--primary);
 }
 
 body .CodeMirror span {
-    color: white;
+	color: white;
 }
 
 body .CodeMirror .cm-quote {
-    color: #699855;
+	color: #699855;
 }
 
 body .CodeMirror .cm-comment {
-    color: #ce9178;
+	color: #ce9178;
 }
 
 body .CodeMirror .cm-meta {
-    color: #ce9178;
+	color: #ce9178;
 }
 
 body .CodeMirror .cm-builtin {
-    color: #ce9178;
+	color: #ce9178;
 }
 
 body .CodeMirror .CodeMirror-cursor {
-    border-color: white;
+	border-color: white;
 }
 
 body .markdown-body img {
+	max-width: 100%;
 
-    max-width: 100%;
-
-    border-radius: 6px;
+	border-radius: 6px;
 }
 
 body .markdown-body * {
-    white-space: break-spaces;
+	white-space: break-spaces;
 }
 
 body .markdown-body code {
+	background: var(--vscode-layer3);
 
-    background: var(--vscode-layer3);
+	padding: 2px 5px;
+	border-radius: 2px;
 
-    padding: 2px 5px;
-    border-radius: 2px;
-
-    font-size: 0.8rem;
+	font-size: 0.8rem;
 }
 
-.entityLink {}
+.entityLink {
+}
 
 .entityLink__entityCard {
+	position: absolute;
 
-    position: absolute;
+	background: var(--vscode-layer3);
+	border-radius: 6px;
+	padding: 6px;
 
-    background: var(--vscode-layer3);
-    border-radius: 6px;
-    padding: 6px;
+	color: var(--vscode-text);
 
-    color: var(--vscode-text);
+	opacity: 0;
 
-    opacity: 0;
-
-    transition-duration: 0.2s;
+	transition-duration: 0.2s;
 }
 
 .entityLink:hover .entityLink__entityCard {
-    opacity: 1;
+	opacity: 1;
 }
 
 .codeUniversityEntityLink {
-    position: relative;
+	position: relative;
 }
 
 .userEntityTooltip {
-    position: absolute;
-    display: flex;
-    align-items: center;
+	position: absolute;
+	display: flex;
+	align-items: center;
 
-    height: 3rem;
-    padding: 8px;
-    gap: 8px;
+	height: 3rem;
+	padding: 8px;
+	gap: 8px;
 
-    top: 100%;
-    left: 0;
+	top: 100%;
+	left: 0;
 
-    min-width: 10rem;
+	min-width: 10rem;
 
-    background: var(--vscode-layer3);
+	background: var(--vscode-layer3);
 
-    text-decoration: none;
+	text-decoration: none;
 
-    border-radius: 2px;
+	border-radius: 2px;
 
-    opacity: 0;
+	opacity: 0;
 
-    transition-duration: 0.1s;
+	transition-duration: 0.1s;
 
-    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .userEntityTooltip span {
-    font-size: 12px;
+	font-size: 12px;
 
-    color: var(--vscode-text);
+	color: var(--vscode-text);
 }
 
 .userEntityTooltip img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-    width: 2rem;
-    height: 2rem;
+	width: 2rem;
+	height: 2rem;
 
-    border-radius: 50% !important;
+	border-radius: 50% !important;
 }
 
-a:hover>.userEntityTooltip {
-    opacity: 1;
+a:hover > .userEntityTooltip {
+	opacity: 1;
 }
 
 body .markdown-body blockquote {
+	padding-left: 1rem;
+	margin-left: 1rem;
 
-    padding-left: 1rem;
-    margin-left: 1rem;
-
-    background: rgba(0, 0, 0, 0.2);
-    border-left: 6px solid var(--vscode-text);
-    border-radius: 6px;
+	background: rgba(0, 0, 0, 0.2);
+	border-left: 6px solid var(--vscode-text);
+	border-radius: 6px;
 }

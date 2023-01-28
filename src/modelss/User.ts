@@ -9,7 +9,10 @@ const userSchema = new mongoose.Schema({
 	permissions: [String], // "PUBLISH_ARTICLES" | "SUGGEST_ARTICLES"
 	name: String,
 	email: String,
-	image: String
+	image: String,
+	notionURL: String,
+	slackURL: String,
+	learningPlatfromURL: String
 });
 const User = mongoose.model('User', userSchema);
 
