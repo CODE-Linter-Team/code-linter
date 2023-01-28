@@ -387,7 +387,7 @@ export type { FileInputProps, FileType, FileState }; -->
 		transition: filter 0.2s;
 		cursor: pointer;
 
-		border: 3px dashed var(--vscode-layer2);
+		border: 2px dashed var(--vscode-layer2);
 	}
 	.dropzoneFileInput :global(.dropzone):hover {
 		filter: brightness(1.1);

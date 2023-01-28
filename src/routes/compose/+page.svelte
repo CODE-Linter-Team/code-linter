@@ -127,7 +127,7 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 
 		if (externalImages != null) {
 			toast.push(
-				`Foreign image source '${externalImages[0]}' detected, please upload your images via the ui or Ctrl + v`,
+				`Foreign image url '${externalImages[0]}' detected, please upload your images via the toolbar button or pasting`,
 				{
 					theme: ToastTheme.error
 				}
@@ -501,6 +501,6 @@ tag select -->
 	.editor.editor--highlightInvalidInputs
 		:global(.dropzoneFileInput.dropzoneFileInput--empty)
 		:global(.dropzone) {
-		/* border-color: var(--error); */
+		border-color: var(--error);
 	}
 </style>
