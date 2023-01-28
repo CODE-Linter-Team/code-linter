@@ -105,6 +105,12 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 		markdownContent.set(e.detail.value);
 	}
 
+	const minTitleLength = 12;
+	const maxTitleLength = 80;
+
+	const minDescriptionLength = 12;
+	const maxDescriptionLength = 220;
+
 	export let fieldContainer: any = null;
 
 	async function submitForReview() {
@@ -130,10 +136,10 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 		}
 
 		if (
-			$title.length < 12 ||
-			$title.length > 42 ||
-			$description.length < 12 ||
-			$description.length > 42 ||
+			$title.length < minTitleLength ||
+			$title.length > maxTitleLength ||
+			$description.length < minDescriptionLength ||
+			$description.length > maxDescriptionLength ||
 			$topic.length < 1 ||
 			$coverImg == null
 		) {
@@ -260,16 +266,17 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 					bind:value={$title}
 					type="text"
 					placeholder="Article title"
-					minlength="12"
-					maxlength="42"
+					minlength={minTitleLength}
+					maxlength={maxTitleLength}
 					required
 				/>
 				<div class="input__footer">
 					<span class="input__hint">Keep as concise and meaningful as possible</span>
 					<span
 						class="input__constraint"
-						style={$title.length >= 12 && $title.length <= 42 ? null : 'color: var(--error)'}
-						>12/{$title.length}/42</span
+						style={$title.length >= minTitleLength && $title.length <= maxTitleLength
+							? null
+							: 'color: var(--error)'}>{minTitleLength}/{$title.length}/{maxTitleLength}</span
 					>
 				</div>
 			</div>
@@ -278,17 +285,19 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 					bind:value={$description}
 					type="text"
 					placeholder="Article description"
-					minlength="12"
-					maxlength="42"
+					minlength={minDescriptionLength}
+					maxlength={maxDescriptionLength}
 					required
 				/>
 				<div class="input__footer">
 					<!-- <span class="input__hint">Tip: dings</span> -->
 					<span
 						class="input__constraint"
-						style={$description.length >= 12 && $description.length <= 42
+						style={$description.length >= minDescriptionLength &&
+						$description.length <= maxDescriptionLength
 							? null
-							: 'color: var(--error)'}>12/{$description.length}/42</span
+							: 'color: var(--error)'}
+						>{minDescriptionLength}/{$description.length}/{maxDescriptionLength}</span
 					>
 				</div>
 			</div>
