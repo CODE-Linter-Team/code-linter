@@ -1,4 +1,11 @@
 <script lang="ts">
+	async function getDefaultMarkdownContent() {
+		const res = await fetch('/api/assets?types=ARTICLE');
+
+		const assets = await res.json();
+
+		const randomPictureUrl = assets[0]?.url;
+	}
 	const defaultMarkdownContent = `## Writing your first article
 
 So you wanna write an article huh?

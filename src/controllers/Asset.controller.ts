@@ -3,6 +3,7 @@ import User from '../modelss/User';
 import Asset from '../modelss/Asset';
 import dayjs from 'dayjs';
 import { maxProfileCacheDays } from '../data/assetSettings';
+import UserController from './User.controller';
 
 
 export interface FileUpload {
@@ -21,7 +22,18 @@ export interface Usage {
     isArticeImage: boolean;
 }
 const AssetController = {
+    async getPaginated(numResults: number, page: number, types: string[]) {
+
+        const results = await Asset.find({
+            ...(types.includes("LOGO") ? { "usage.isLogo": true } : {}),
+            ...(types.includes("ARTICLE") ? { "usage.isArticleImage": true } : {}),
+            "usage.isProfilePicture": false,
+        }).skip(page * numResults).limit(numResults)
+
+        return await Promise.all(results.map(AssetController.refineAsset))
+    },
     async refineAsset(assetDoc: any): Promise<FileUpload> {
+
         const { _id, ownerId, size, data, alt, title, usage } = assetDoc;
 
         const url = PUBLIC_SERVICE_URL + `/api/assets/${_id}.jpeg`;
@@ -45,7 +57,7 @@ const AssetController = {
 
         return asset;
     },
-    async create(
+    async _create(
         {
             title,
             alt,
@@ -87,58 +99,64 @@ const AssetController = {
         return rawAsset.toObject();
     },
     async createProfilePicture(email: string, image: string) {
-        console.log(image)
-        const profilePictureOfUser = await Asset.findOne({ ownerId: email, "usage.isProfilePicture": true , updatedAt: { $exists: true}});
+
+        const profilePictureOfUser = await Asset.findOne({ ownerId: email, "usage.isProfilePicture": true, updatedAt: { $exists: true } });
+
         if (profilePictureOfUser) {
-            const {data, title, alt, usage} = await this.fetchProfileImageData(image)
+            const { data, title, alt, usage } = await this.fetchProfileImageData(image)
             //@ts-ignore
-            const currentProfilePicutre = Buffer.from (profilePictureOfUser.data)
+            const currentProfilePicutre = Buffer.from(profilePictureOfUser.data)
 
             if (currentProfilePicutre.compare(data) !== 0) {
                 profilePictureOfUser.title = title
 
                 profilePictureOfUser.alt = alt
-                
+
                 profilePictureOfUser.data = data
 
                 await profilePictureOfUser.save()
-            } 
+            }
             return profilePictureOfUser
         } else {
-            const {data, title, alt, usage} = await this.fetchProfileImageData(image)
+            const { data, title, alt, usage } = await this.fetchProfileImageData(image)
 
-            const rawAsset = await AssetController.create({ title, alt, data }, email, usage);
+            const rawAsset = await AssetController._create({ title, alt, data }, email, usage);
 
             const asset = await AssetController.refineAsset({ ...rawAsset });
 
+            await User.findOneAndUpdate({
+                email,
+            }, {
+                image: asset.url,
+            })
             return asset;
         }
     },
     async fetchProfileImageData(image: string) {
         const respone = await fetch(image);
 
-            const blobData = await respone.blob();
+        const blobData = await respone.blob();
 
-            const arrayBufferData = await blobData.arrayBuffer();
+        const arrayBufferData = await blobData.arrayBuffer();
 
-            const data = Buffer.from(arrayBufferData);
+        const data = Buffer.from(arrayBufferData);
 
-            const title = 'profileImage';
+        const title = 'profileImage';
 
-            const alt = 'profileImage';
+        const alt = 'profileImage';
 
-            const usage = {
-                isArticleImage: false,
-                isProfilePicture: true,
-                isLogo: false
-            }
+        const usage = {
+            isArticleImage: false,
+            isProfilePicture: true,
+            isLogo: false
+        }
 
-            return {
-                data: data,
-                title: title,
-                alt: alt,
-                usage: usage
-            }
+        return {
+            data: data,
+            title: title,
+            alt: alt,
+            usage: usage
+        }
     },
     async createArticleImage(
         {
@@ -158,7 +176,7 @@ const AssetController = {
             isLogo: false
         }
 
-        const rawAsset = await AssetController.create({ title, alt, data }, ownerId, usage);
+        const rawAsset = await AssetController._create({ title, alt, data }, ownerId, usage);
 
 
         const asset = await AssetController.refineAsset({ ...rawAsset });
@@ -183,7 +201,7 @@ const AssetController = {
             isLogo: true
         }
 
-        const rawAsset = await AssetController.create({ title, alt, data }, ownerId, usage);
+        const rawAsset = await AssetController._create({ title, alt, data }, ownerId, usage);
 
         const asset = await AssetController.refineAsset({ ...rawAsset });
 

@@ -15,7 +15,7 @@
 
 	watch();
 
-	console.info('ich in Header.svelte:', $me);
+	$: console.info('ich in Header.svelte:', $me);
 
 	const isLoggedIn = Object.keys($page?.data?.session || {}).length;
 
@@ -39,7 +39,7 @@
 
 	$: hasArticleWritePermisison = $me.permissions.includes(Permission.SUBMIT_ARTICLES_FOR_REVIEW.id);
 
-	const userProfilePicture = $page?.data?.session?.user?.image;
+	$: userProfilePicture = $me.me?.image ?? $page?.data?.session?.user?.image;
 
 	const userEmail = $page?.data?.session?.user?.email;
 
@@ -66,11 +66,16 @@
 		<nav class="upperNav">
 			<div class="accountInfoContainer" />
 			<a class="logoContainer" href="/">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 102.6 26.9" class="logo"
-					><path
-						d="M13.3 20.5c-3.6 0-6.5-3.2-6.5-7.1s2.9-7.1 6.5-7.1c1.7 0 3.3.8 4.5 2l4.6-4.5C19.9 1.5 16.7 0 13.1 0 5.9 0 0 6 0 13.5 0 20.9 5.9 27 13.1 27c3.6 0 6.9-1.5 9.2-3.9l-4.6-4.5c-1.1 1.2-2.7 1.9-4.4 1.9zM32.2.6L19.5 13l-.4.4 13.1 12.9 4.5-4.4-8.9-8.4L36.7 5 32.2.6zm35.1.3h-8.6V26h8.7C75.3 26 81 21.2 81 13.5 81 5.7 75.3.9 67.3.9zm0 19.5h-2.1V6.6h2.1c4.6 0 7 3 7 6.9 0 3.7-2.6 6.9-7 6.9zm35.3-13.8V.9H84V26h18.6v-5.6H90.5v-4.3h11.8v-5.6H90.5V6.6h12.1zM42.8.6L38.3 5l8.9 8.5-8.9 8.4 4.5 4.4 13.1-12.9-.4-.4L42.8.6z"
-					/></svg
-				>
+				<svg class="logo" viewBox="0 0 401 120" xmlns="http://www.w3.org/2000/svg">
+					<path
+						d="M73.075 93.4058V31.9808H96.322C100.732 31.9808 104.795 32.5793 108.512 33.7763C112.229 34.9103 115.222 36.9263 117.49 39.8243C119.758 42.7223 120.892 46.7228 120.892 51.8258C120.892 56.2358 119.978 59.8898 118.151 62.7878C116.324 65.6858 113.93 67.9538 110.969 69.5918L124.294 93.4058H106.15L95.566 72.8048H89.329V93.4058H73.075ZM89.329 59.9528H95.188C101.74 59.9528 105.016 57.2438 105.016 51.8258C105.016 49.1798 104.165 47.3528 102.464 46.3448C100.826 45.3368 98.401 44.8328 95.188 44.8328H89.329V59.9528ZM132.599 93.4058V31.9808H172.289V45.5888H148.853V55.2278H168.887V68.8358H148.853V79.7978H173.234V93.4058H132.599ZM195.504 93.4058L177.36 31.9808H194.559L200.985 58.8188C201.867 62.0948 202.623 65.3393 203.253 68.5523C203.946 71.7023 204.702 74.9468 205.521 78.2858H205.899C206.781 74.9468 207.537 71.7023 208.167 68.5523C208.86 65.3393 209.616 62.0948 210.435 58.8188L216.672 31.9808H233.304L215.16 93.4058H195.504ZM239.188 93.4058V31.9808H255.442V93.4058H239.188ZM269.089 93.4058V31.9808H308.779V45.5888H285.343V55.2278H305.377V68.8358H285.343V79.7978H309.724V93.4058H269.089ZM326.513 93.4058L315.74 31.9808H332.372L335.774 58.8188C336.089 62.0318 336.435 65.2448 336.813 68.4578C337.191 71.6708 337.538 74.8838 337.853 78.0968H338.231C338.798 74.8838 339.365 71.6708 339.932 68.4578C340.499 65.1818 341.066 61.9688 341.633 58.8188L347.492 31.9808H361.1L366.959 58.8188C367.526 61.9058 368.093 65.0873 368.66 68.3633C369.227 71.5763 369.794 74.8208 370.361 78.0968H370.739C371.054 74.8208 371.4 71.5763 371.778 68.3633C372.156 65.0873 372.503 61.9058 372.818 58.8188L376.22 31.9808H391.718L381.512 93.4058H360.911L356.186 69.0248C355.745 66.6308 355.335 64.2053 354.957 61.7483C354.579 59.2913 354.233 56.9288 353.918 54.6608H353.54C353.225 56.9288 352.878 59.2913 352.5 61.7483C352.185 64.2053 351.776 66.6308 351.272 69.0248L346.736 93.4058H326.513Z"
+					/>
+					<path
+						fill-rule="evenodd"
+						clip-rule="evenodd"
+						d="M61.8016 31.9259H0.321777V93.4058H61.8016V31.9259ZM24.6327 81.8783L43.6209 63.3387L44.219 62.7406L24.6327 43.4533L17.9046 50.0319L31.2113 62.5911L17.9046 75.2997L24.6327 81.8783Z"
+					/>
+				</svg>
 			</a>
 			<div class="accountInfoContainer">
 				{#if isLoggedIn}
@@ -88,7 +93,9 @@
 								title={`Signed in as ${usernameOrEmail}`}
 								style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'); background-size: cover"
 							>
-								<span style="background-image: url('{userProfilePicture}')" />
+								<span
+									style="background-image: url('{userProfilePicture}'); width: 100%; height: 100%; background-size: cover"
+								/>
 							</div>
 							{#if isAccountPopupOpen}
 								<UserInfoCard {user} isMe={true} {signOut} style="right: 1.25rem; top: 6rem;" />
@@ -208,7 +215,7 @@
 	.logo {
 		fill: white;
 
-		height: 3rem;
+		height: 4rem;
 	}
 	h2 {
 		margin: 0;
@@ -323,6 +330,8 @@
 		box-sizing: content-box;
 
 		color: var(--vscode-text);
+
+		overflow: hidden;
 	}
 	.header-avatar:hover {
 		margin: 0;

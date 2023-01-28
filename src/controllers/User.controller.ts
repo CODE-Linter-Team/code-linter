@@ -34,9 +34,9 @@ const UserController = {
 			email,
 			permissions: [Permission.SUBMIT_ARTICLES_FOR_REVIEW.id]
 		});
-		const pb = await AssetController.create({ alt: 'lwe', title: '', data: image }, user._id);
+		const pb = await AssetController._create({ alt: 'lwe', title: '', data: image }, user._id, { isArticleImage: false, isProfilePicture: false, isLogo: false });
 
-		console.log(user.name, pb.url)
+		console.log(user.name, pb.url, image == null)
 
 		user.image = pb.url;
 

@@ -5,16 +5,16 @@ import ArticleController from '../../../controllers/Article.controller';
 import UserController from '../../../controllers/User.controller';
 import Permission from '../../../data/permissions';
 
-export async function GET({ locals, url, ...rest }: any) {
+export async function GET({ locals, url }: any) {
 	await connectToDatabase();
 
 	const { user } = (await locals.getSession()) ?? {};
 
 	const isLoggedIn = user != null;
 
-	const contentTags = url.searchParams.get('tags')?.split(',');
-	const authors = url.searchParams.get('authors')?.split(',');
-	const states = url.searchParams.get('states')?.split(',');
+	const contentTags = url.searchParams.get('tags')?.split(',') ?? [];
+	const authors = url.searchParams.get('authors')?.split(',') ?? [];
+	const states = url.searchParams.get('states')?.split(',') ?? [];
 
 	const articles = await ArticleController.get({
 		includeInternal: isLoggedIn,

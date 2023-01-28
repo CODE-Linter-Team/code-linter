@@ -15,6 +15,20 @@ async function readableStreamToBuffer(stream: any): Promise<Buffer> {
 	});
 }
 
+export async function GET({ locals, url, request }: any) {
+	await connectToDatabase();
+
+	const types: string[] = url.searchParams.get('types')?.split(',') ?? [];
+	const numResults: number = url.searchParams.get('results') ?? 10
+	const page: number = url.searchParams.get('page') ?? 0
+
+	const assets = await AssetController.getPaginated(numResults, page, types);
+
+	return new Response(JSON.stringify({ assets }), {
+		headers: { 'Content-Type': 'application/json' }
+	});
+}
+
 export async function POST({ locals, request }: any) {
 	await connectToDatabase();
 
