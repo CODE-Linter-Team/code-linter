@@ -57,6 +57,7 @@
 		display: flex;
 		flex-direction: column;
 
+		width: 100%;
 		max-width: 40rem;
 		gap: 3rem;
 		margin: auto;

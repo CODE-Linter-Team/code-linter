@@ -12,16 +12,46 @@
 		>.
 	</p>
 
-	<pre>npm create svelte@latest</pre>
-
+	<h2>Keeping you up to date</h2>
 	<p>
-		The page you're looking at is purely static HTML, with no client-side interactivity needed.
-		Because of that, we don't need to load any JavaScript. Try viewing the page's source, or opening
-		the devtools network panel and reloading.
+		We bundle important events, deadlines, and announcement in one place. Clearly and without the
+		spam, unlike Slack.
 	</p>
+
+	<h2>Painting a better picture of CODE</h2>
+	<p>
+		Wondering what people are working on? <br />
+		Heard about our campus moving at some point but don't know specifics? <br />
+		Didn't know CODE is raising their price every generation? <br />
+		CODE Review clears up questions and informs about everything you'd have to force out of the Student
+		Council's mouth.
+	</p>
+
+	<h2>Giving students a platform</h2>
+	<p>Talking about trends, important events, and issues in the community</p>
 </div>
 
-We are aiming to Bundle important events, deadlines, and information about CODE in one place. This
-includes informing about student-led events, academic deadlines and anything that requires students
-to take action. Paint a picture of CODE - Both for studends and the outside world. Talking about
-trends and issues in the community. (also critically) - informing about code move - talking
+<style>
+	h1 {
+		color: white;
+
+		font-weight: bold;
+
+		font-size: 2.6rem;
+	}
+	h2 {
+		color: white;
+
+		font-weight: bold;
+
+		font-size: 2rem;
+	}
+	p {
+		color: var(--vscode-text);
+
+		font-size: 1.1rem;
+	}
+	a {
+		color: var(--primary);
+	}
+</style>

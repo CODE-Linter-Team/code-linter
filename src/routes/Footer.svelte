@@ -1,6 +1,5 @@
 <footer>
 	<div class="impressum">
-		<h3>Impressum</h3>
 		<div class="impressumContent">
 			<p>
 				<strong>Address</strong>
@@ -9,19 +8,16 @@
 				<br />
 				Lohmühlenstrasse 65
 				<br />
-				12435 Berlin
-				<br />
-				Deutschland
-				<br />
+				12435 Berlin, Deutschland
 			</p>
 			<p>
 				<strong>Contact</strong>
 				<br />
-				Name: Daniel Azomji
+				Daniel Azomji
 				<br />
-				Email: daniel.azomji@code.berlin
+				daniel.azomji@code.berlin
 				<br />
-				Tel.: +49 123 4567891
+				+49 123 4567891
 			</p>
 		</div>
 	</div>
@@ -95,15 +91,16 @@
 	.impressumContent {
 		display: flex;
 		flex-direction: row;
+
+		gap: 7rem;
 	}
 	@media (max-width: 32rem) {
 		.impressumContent {
 			flex-direction: column;
+			gap: 1rem;
 		}
 	}
 
 	.impressumContent p {
-		min-width: 250px;
-		align-self: center;
 	}
 </style>

@@ -66,7 +66,7 @@
 			});
 			state = { state: 'SUBMITTED' };
 		} catch (err) {
-			toast.push('Failed to reject article', {
+			toast.push('Failed to publish article', {
 				theme: ToastTheme.error
 			});
 			state = { state: 'DEFAULT' };
@@ -167,7 +167,7 @@
 				<button
 					class="button"
 					style="--color: var(--error)"
-					on:click={() => publishArticle(article.id)}
+					on:click={() => rejectArticle(article.id)}
 				>
 					{#if isSubmitting}
 						<Pulse size="24" color="white" unit="px" duration="1s" />
