@@ -37,7 +37,7 @@ const UserController = {
 		})
 		const pb = await AssetController.create({ alt: "lwe", title: "", data: image }, user._id)
 
-		console.log(pb.url)
+		console.log(user.name, pb.url)
 
 		user.image = pb.url
 
