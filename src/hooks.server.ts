@@ -6,33 +6,45 @@ import Article from './modelss/Article';
 import Asset from './modelss/Asset';
 import Permission from './data/permissions';
 
-import importNotionData from "./data/importNotionData"
+import importNotionData from './data/importNotionData';
 
-import { SECRET_SERVICE_AUTH_SECRET, SECRET_GOOGLE_ID, SECRET_GOOGLE_SECRET } from '$env/static/private'
+import {
+	SECRET_SERVICE_AUTH_SECRET,
+	SECRET_GOOGLE_ID,
+	SECRET_GOOGLE_SECRET
+} from '$env/static/private';
 
-import { PUBLIC_SERVICE_URL } from "$env/static/public"
+import { PUBLIC_SERVICE_URL } from '$env/static/public';
 
-import { config } from "dotenv"
+import { config } from 'dotenv';
+import AssetController from './controllers/Asset.controller';
 
-config()
+config();
 
 export const handle = SvelteKitAuth({
-
 	// hahaha :DDD
 	trustHost: true,
 	providers: [Google({ clientId: SECRET_GOOGLE_ID, clientSecret: SECRET_GOOGLE_SECRET })],
 	secret: SECRET_SERVICE_AUTH_SECRET,
+	callbacks: {
+		signIn: async ({ user }) => {
+			const { id, name, email, image } = user;
+
+			const test = AssetController.createProfilePicture(email, image);
+
+			return true;
+		}
+	}
 });
 
 async function seedDatabase() {
-
-	await connectToDatabase()
+	await connectToDatabase();
 
 	await User.deleteMany();
 	await Article.deleteMany();
-	await Asset.deleteMany()
+	await Asset.deleteMany();
 
-	await importNotionData()
+	await importNotionData();
 
 	// 	const ALL_PERMISSIONS = Object.keys(Permission);
 

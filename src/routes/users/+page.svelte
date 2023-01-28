@@ -48,6 +48,7 @@
 			<div class="column">
 				<h2>Permissions</h2>
 				{#each Object.values(Permission) as permission, idx}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<div
 						class="booleanRow"
 						title={permission.text}

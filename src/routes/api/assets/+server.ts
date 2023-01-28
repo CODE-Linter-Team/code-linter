@@ -19,7 +19,6 @@ export async function POST({ locals, request }: any) {
 	await connectToDatabase();
 
 	try {
-
 		const { user } = (await locals.getSession()) ?? {};
 
 		const isLoggedIn = user != null;
@@ -47,20 +46,18 @@ export async function POST({ locals, request }: any) {
 
 		const ownerId = user.email;
 
-		const asset = await AssetController.create({ data, title, alt }, ownerId);
+		const asset = await AssetController.createArticleImage({ data, title, alt }, ownerId);
 
 		return new Response(JSON.stringify(asset), {
 			headers: { 'Content-Type': 'application/json' },
 			status: 201
 		});
 	} catch (err) {
+		console.error(`uncaught error inside POST /api/assets:`, err);
 
-		console.error(`uncaught error inside POST /api/assets:`, err)
-
-		return new Response(JSON.stringify({ ok: 0, message: "failed to upload image" }), {
+		return new Response(JSON.stringify({ ok: 0, message: 'failed to upload image' }), {
 			headers: { 'Content-Type': 'application/json' },
 			status: 500
 		});
-
 	}
 }

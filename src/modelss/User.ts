@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema({
 	name: String,
 	email: String,
 	image: String,
+	notionURL: String,
+	slackURL: String,
+	learningPlatfromURL: String
 });
 const User = mongoose.model('User', userSchema);
 

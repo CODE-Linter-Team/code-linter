@@ -14,9 +14,9 @@
 	import { faNewspaper, faUsers } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa/src/fa.svelte';
 
-	import ArticleCard from './ArticleCard.svelte';
-	import CurrentEventCard from './CurrentEventCard.svelte';
-	import Counter from './Counter.svelte';
+	import ArticleCard from '../components/ArticleCard.svelte';
+	import CurrentEventCard from '../components/CurrentEventCard.svelte';
+	import Counter from '../components/Counter.svelte';
 
 	import randomSeed from 'random-seed';
 	import me from '../stores/me.store';

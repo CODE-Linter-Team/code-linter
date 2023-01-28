@@ -2,7 +2,7 @@
 	import { faEye } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa/src/fa.svelte';
 
-	import UserInfoCard from '../components/UserInfoCard.svelte';
+	import UserInfoCard from './UserInfoCard.svelte';
 
 	import ToastTheme from '../data/toastThemes';
 
@@ -178,6 +178,7 @@
 			{/if}
 		</div>
 	</div>
+	<!-- svelte-ignore a11y-missing-attribute -->
 	<img src={article.coverImgSrc} class="articleWallpaper" />
 </div>
 

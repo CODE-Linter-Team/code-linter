@@ -1,6 +1,6 @@
 import Article from '../modelss/Article';
 import User from '../modelss/User';
-import AssetController from "../controllers/Asset.controller"
+import AssetController from '../controllers/Asset.controller';
 import Permission from '../data/permissions';
 
 const UserController = {
@@ -27,23 +27,22 @@ const UserController = {
 		return true;
 	},
 	async createFromNotionImport(userData: any) {
-
-		const { name, email, tags, image, studyProgram } = userData
+		const { name, email, tags, image, studyProgram } = userData;
 
 		const user = await User.create({
 			name,
 			email,
 			permissions: [Permission.SUBMIT_ARTICLES_FOR_REVIEW.id]
-		})
-		const pb = await AssetController.create({ alt: "lwe", title: "", data: image }, user._id)
+		});
+		const pb = await AssetController.create({ alt: 'lwe', title: '', data: image }, user._id);
 
 		console.log(user.name, pb.url)
 
-		user.image = pb.url
+		user.image = pb.url;
 
-		const result = await user.save()
+		const result = await user.save();
 
-		return result
+		return result;
 	}
 };
 export default UserController;

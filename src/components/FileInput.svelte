@@ -12,7 +12,7 @@
 
 	export let setFiles: (files: (File & { url: string })[]) => any;
 
-	export let files: (File & { url: string })[];
+	export let files: (File & { id: string; url: string })[];
 
 	$: isFull = files.length >= maxFiles;
 
