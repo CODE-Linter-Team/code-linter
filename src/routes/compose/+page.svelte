@@ -129,7 +129,14 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 			return;
 		}
 
-		if ($title.length < 12 || $description.length < 12 || $topic.length < 1 || $coverImg == null) {
+		if (
+			$title.length < 12 ||
+			$title.length > 42 ||
+			$description.length < 12 ||
+			$description.length > 42 ||
+			$topic.length < 1 ||
+			$coverImg == null
+		) {
 			shouldHighlightInvalidInputs = true;
 
 			fieldContainer.scrollIntoView();
@@ -230,27 +237,68 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 </script>
 
 <div class={'editor' + (shouldHighlightInvalidInputs ? ' editor--highlightInvalidInputs' : '')}>
-	<div
-		class="booleanRow"
-		on:click={() => isInternal.set(!$isInternal)}
-		title="Internal articles can only be viewed by users signed into their CODE account"
-	>
-		<span>Internal article</span>
-		<Toggle isToggled={$isInternal} />
+	<div class="input">
+		<div
+			class="booleanRow"
+			on:click={() => isInternal.set(!$isInternal)}
+			title="Internal articles can only be viewed by users signed into their CODE account"
+		>
+			<span>Internal article</span>
+			<Toggle isToggled={$isInternal} />
+		</div>
+		<!-- <div class="input__footer">
+			<span class="input__hint"
+				>Internal articles can only be viewed by users signed into their CODE account</span
+			>
+		</div> -->
 	</div>
 
 	<div style="display: flex; flex-wrap: wrap; gap: 2rem" bind:this={fieldContainer}>
 		<div class="resizing-column">
-			<input bind:value={$title} type="text" placeholder="Article title" minlength="12" required />
-			<input
-				bind:value={$description}
-				type="text"
-				placeholder="Article description"
-				minlength="12"
-				maxlength="42"
-				required
-			/>
-			<input bind:value={$topic} type="text" placeholder="Article topic" minlength="1" required />
+			<div class="input">
+				<input
+					bind:value={$title}
+					type="text"
+					placeholder="Article title"
+					minlength="12"
+					maxlength="42"
+					required
+				/>
+				<div class="input__footer">
+					<span class="input__hint">Keep as concise and meaningful as possible</span>
+					<span
+						class="input__constraint"
+						style={$title.length >= 12 && $title.length <= 42 ? null : 'color: var(--error)'}
+						>12/{$title.length}/42</span
+					>
+				</div>
+			</div>
+			<div class="input">
+				<input
+					bind:value={$description}
+					type="text"
+					placeholder="Article description"
+					minlength="12"
+					maxlength="42"
+					required
+				/>
+				<div class="input__footer">
+					<!-- <span class="input__hint">Tip: dings</span> -->
+					<span
+						class="input__constraint"
+						style={$description.length >= 12 && $description.length <= 42
+							? null
+							: 'color: var(--error)'}>12/{$description.length}/42</span
+					>
+				</div>
+			</div>
+			<div class="input">
+				<input bind:value={$topic} type="text" placeholder="Article topic" minlength="1" required />
+				<!-- <div class="input__footer">
+					<span class="input__hint">Tip: dings</span>
+					<span class="input__constraint">5/3</span>
+				</div> -->
+			</div>
 		</div>
 		<div class="resizing-column">
 			<FileInput {files} {setFiles} />
@@ -355,12 +403,36 @@ tag select -->
 	.button:hover {
 		filter: brightness(1.1);
 	}
+
+	.input {
+		display: flex;
+		flex-direction: column;
+	}
+	.input__footer {
+		display: flex;
+		align-items: center;
+
+		padding-top: 1px;
+		padding-left: 1rem;
+	}
+	.input__hint {
+		font-size: 12px;
+
+		color: #ccc;
+	}
+	.input__constraint {
+		margin-left: auto;
+		font-size: 12px;
+
+		color: #ccc;
+	}
+
 	input {
-		height: 2.5rem;
+		height: 2.75rem;
 
 		padding: 0 1rem;
 
-		border-radius: 6px;
+		border-radius: 2px;
 
 		background: var(--vscode-card-bg);
 
@@ -410,7 +482,9 @@ tag select -->
 	} */
 
 	.editor.editor--highlightInvalidInputs input:invalid {
-		outline: 3px solid var(--error);
+		/* outline: 3px solid var(--error); */
+
+		border-bottom: 2px solid var(--error);
 	}
 	/* .editor.editor--highlightInvalidInputs input:not(:valid) {
 		outline: 3px solid var(--error);
@@ -418,6 +492,6 @@ tag select -->
 	.editor.editor--highlightInvalidInputs
 		:global(.dropzoneFileInput.dropzoneFileInput--empty)
 		:global(.dropzone) {
-		border-color: var(--error);
+		/* border-color: var(--error); */
 	}
 </style>

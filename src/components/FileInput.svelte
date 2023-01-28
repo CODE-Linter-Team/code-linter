@@ -8,7 +8,7 @@
 
 	export let maxFiles = 1;
 
-	export let maxSizeMb = 0.5;
+	export let maxSizeMb = 1;
 
 	export let setFiles: (files: (File & { url: string })[]) => any;
 

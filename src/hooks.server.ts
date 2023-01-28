@@ -21,7 +21,7 @@ export const handle = SvelteKitAuth({
 	// hahaha :DDD
 	trustHost: true,
 	providers: [Google({ clientId: SECRET_GOOGLE_ID, clientSecret: SECRET_GOOGLE_SECRET })],
-	secret: SECRET_SERVICE_AUTH_SECRET
+	secret: SECRET_SERVICE_AUTH_SECRET,
 });
 
 async function seedDatabase() {
