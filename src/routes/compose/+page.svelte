@@ -288,14 +288,17 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 				</div>
 			</div>
 			<div class="input">
-				<input
-					bind:value={$description}
-					type="text"
-					placeholder="Article description"
-					minlength={minDescriptionLength}
-					maxlength={maxDescriptionLength}
-					required
-				/>
+				<div class="textAreaContainer">
+					<textarea
+						bind:value={$description}
+						class="textArea"
+						placeholder="Article description"
+						minlength={minDescriptionLength}
+						maxlength={maxDescriptionLength}
+						required
+						spellcheck={false}
+					/>
+				</div>
 				<div class="input__footer">
 					<!-- <span class="input__hint">Tip: dings</span> -->
 					<span
@@ -308,6 +311,26 @@ For any questions, feel free to reach out to @[user](linus.bolls@code.berlin).
 					>
 				</div>
 			</div>
+			<!-- <div class="input">
+				<input
+					bind:value={$description}
+					type="text"
+					placeholder="Article description"
+					minlength={minDescriptionLength}
+					maxlength={maxDescriptionLength}
+					required
+				/>
+				<div class="input__footer">
+					<span
+						class="input__constraint"
+						style={$description.length >= minDescriptionLength &&
+						$description.length <= maxDescriptionLength
+							? null
+							: 'color: var(--error)'}
+						>{minDescriptionLength}/{$description.length}/{maxDescriptionLength}</span
+					>
+				</div>
+			</div> -->
 			<div class="input">
 				<input bind:value={$topic} type="text" placeholder="Article topic" minlength="1" required />
 				<!-- <div class="input__footer">
@@ -509,5 +532,36 @@ tag select -->
 		:global(.dropzoneFileInput.dropzoneFileInput--empty)
 		:global(.dropzone) {
 		border-color: var(--error);
+	}
+	.textAreaContainer {
+		padding: 1rem;
+
+		background: var(--vscode-layer1);
+
+		border-radius: 2px;
+
+		transition-duration: 0.2s;
+	}
+	.textAreaContainer:hover {
+		filter: brightness(1.1);
+	}
+	.textArea {
+		width: 100%;
+		height: 77px;
+		padding: 0;
+		margin: 0;
+
+		resize: vertical;
+		overflow: auto;
+
+		background: none;
+		border: none;
+
+		font-size: 1rem;
+		color: #ccc;
+		font-family: inherit;
+	}
+	.textArea:focus {
+		outline: none !important;
 	}
 </style>
