@@ -22,7 +22,9 @@
 		</div>
 	</div>
 	<nav>
-		<a href="#">Privacy</a>
+		<a href="/legal">Privacy</a>
+		<a href="/about">About</a>
+		<a href="/about">Dings</a>
 	</nav>
 </footer>
 
