@@ -121,4 +121,4 @@ async function seedDatabase() {
 	// 	testArticle.url = PUBLIC_SERVICE_URL + "/articles/" + testArticle._id
 	// 	await testArticle.save();
 }
-seedDatabase();
+// seedDatabase();
